@@ -1,2 +1,14 @@
 ---
-# tasks file for cpm prerequisities - not used for cpm
+# tasks file for psm prerequisities
+
+- name: execure psm prerequisities
+  win_shell: |
+    Set-Location "{{ psm_installationautomation_folder }}"
+    $Action = .\Execute-Stage.ps1 "C:\CyberArk\Ansible\PSM\Privileged Session Manager\InstallationAutomation\Prerequisites\PrerequisitesConfig.xml" -displayJson -delayedrestart
+    $Action | Out-File -FilePath "C:\CyberArk\Ansible\psm_pre_req_result.txt"
+    $Result = Get-Content "C:\CyberArk\Ansible\psm_pre_req_result.txt" | ConvertFrom-Json
+    if ($Result.isSucceeded -eq 2) {
+        exit 1
+    } else {
+        exit 0
+}
