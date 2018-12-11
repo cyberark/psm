@@ -1,0 +1,29 @@
+---
+# defaults file for psm
+psm_uninstall: false
+psm_prerequisites: false
+psm_install: false
+psm_postinstall: false
+psm_hardening: false
+psm_registration: false
+psm_upgrade: false
+psm_clean: false
+psm_extract: false
+
+psm_exists: false
+psm_hardened: false
+psm_registered: false
+
+psm_service_name: "Cyber-Ark Privileged Session Manager"
+
+psm_base_bin_drive: "C:"
+psm_extract_folder: "{{ psm_base_bin_drive }}\\Cyberark\\packages"
+psm_artifact_name: "psm.zip"
+psm_component_folder: "PSM"
+psm_installationautomation_folder: "{{ psm_extract_folder }}\\{{ psm_component_folder }}\\InstallationAutomation"
+
+psm_installation_drive: "C:"
+psm_installation_path: "{{ psm_installation_drive }}\\Program Files (x86)\\CyberArk"
+psm_registrationtool_folder: "{{ psm_base_bin_drive }}\\Cyberark\\Components Registration"
+
+accept_eula: "No"

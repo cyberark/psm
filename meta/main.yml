@@ -1,0 +1,24 @@
+galaxy_info:
+  author:
+    - Nimrod Yakobovitz
+    - Yogev Chen
+    - Avishay Bar
+    - Ziv Lifshits
+    - Maish Saidel-Keesing
+  description: Installs CyberArk CPM software
+  company: CyberArk
+  license: Apache2
+
+  min_ansible_version: 2.5
+
+  platforms:
+  - name: Windows
+    versions:
+    - 2016
+
+  galaxy_tags:
+    - cpm
+    - cyberark
+    - security
+
+dependencies: []
