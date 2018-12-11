@@ -1,58 +1,55 @@
 ---
-# tasks file for cpm
+# tasks file for psm
 
 # Validate Parameters
 - name: validate input parameters
-  include_tasks: cpm_validateparameters.yml
+  include_tasks: psm_validateparameters.yml
 
-- name: extract cpm package
-  include_tasks: cpm_extract.yml
+- name: extract psm package
+  include_tasks: psm_extract.yml
   when: 
-    - cpm_extract 
+    - psm_extract 
   
-- name: running cpm prerequisities
-  include_tasks: cpm_prerequisites.yml
+- name: running psm prerequisities
+  include_tasks: psm_prerequisites.yml
   when: 
-    -cpm_prerequisites
+    -psm_prerequisites
 
-- name: running cpm uninstall
-  include_tasks: cpm_uninstall.yml
+- name: running psm uninstall
+  include_tasks: psm_uninstall.yml
   when: 
-    - cpm_uninstall
+    - psm_uninstall
 
-- name: running cpm install
-  include_tasks: cpm_install.yml
+- name: running psm install
+  include_tasks: psm_install.yml
   when: 
-    - cpm_install
-    - not cpm_exists
+    - psm_install
 
-- name: running cpm postinstall
-  include_tasks: cpm_postinstall.yml
+- name: running psm postinstall
+  include_tasks: psm_postinstall.yml
   when: 
-    - cpm_postinstall
+    - psm_exists
+    - psm_postinstall
     
-- name: running cpm hardening
-  include_tasks: cpm_hardening.yml
+- name: running psm hardening
+  include_tasks: psm_hardening.yml
   when: 
-    - not cpm_hardened
-    - cpm_exists
-    - cpm_scanner_exists
-    - cpm_hardening 
+    - psm_exists
+    - psm_hardening 
     
-- name: running cpm registration
-  include_tasks: cpm_registration.yml
+- name: running psm registration
+  include_tasks: psm_registration.yml
   when: 
-    - cpm_registration
-    - cpm_exists
-    - cpm_scanner_exists
-    - not cpm_registered
+    - psm_registration
+    - psm_exists
+    - not psm_registered
 
-- name: running cpm upgrade
-  include_tasks: cpm_upgrade.yml
+- name: running psm upgrade
+  include_tasks: psm_upgrade.yml
   when: 
-    - cpm_upgrade
+    - psm_upgrade
   
-- name: running cpm clean
-  include_tasks: cpm_clean.yml
+- name: running psm clean
+  include_tasks: psm_clean.yml
   when: 
-    - cpm_clean
+    - psm_clean
