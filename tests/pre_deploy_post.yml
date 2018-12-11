@@ -46,7 +46,7 @@
   gather_facts: false
   
   vars_prompt:
-    - name: vault_password
+    - name: vault_password 
       prompt: "Please enter the Vault password"
       private: yes
       when: psm_registration
