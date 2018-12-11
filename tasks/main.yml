@@ -13,7 +13,7 @@
 - name: running psm prerequisities
   include_tasks: psm_prerequisites.yml
   when: 
-    -psm_prerequisites
+    - psm_prerequisites
 
 - name: running psm uninstall
   include_tasks: psm_uninstall.yml

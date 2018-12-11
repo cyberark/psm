@@ -11,4 +11,4 @@
         exit 1
     } else {
         exit 0
-}
+    }

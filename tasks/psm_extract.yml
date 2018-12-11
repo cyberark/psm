@@ -18,6 +18,6 @@
     
 - name: Copy registration tool
   win_copy:
-    src: "{{ psm_installationautomation_folder }}\\Registration\\RegistrationTool\\"
+    src: "{{ psm_extract_folder }}\\{{ psm_component_folder }}\\RegistrationTool\\"
     dest: "{{ psm_registrationtool_folder }}"
     remote_src: yes
