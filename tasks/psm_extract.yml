@@ -1,24 +1,23 @@
 ---
-# tasks file for cpm_extract
+# tasks file for psm_extract
 
-# TODO Extract and get exact paths
 - name: Create folder 
   win_file:
-    path: "{{ cpm_extract_folder }}"
+    path: "{{ psm_extract_folder }}"
     state: directory
 
-- name: Copy CPM package from local source
+- name: Copy psm package from local source
   win_copy:
-    src: "{{ cpm_zip_file_path }}"
-    dest: "{{ cpm_extract_folder }}\\{{ cpm_artifact_name }}"
+    src: "{{ psm_zip_file_path }}"
+    dest: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
     
-- name: Unzip the cpm package
+- name: Unzip the psm package
   win_unzip:
-    src: "{{ cpm_extract_folder }}\\{{ cpm_artifact_name }}"
-    dest: "{{ cpm_extract_folder }}"
+    src: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
+    dest: "{{ psm_extract_folder }}"
     
 - name: Copy registration tool
   win_copy:
-    src: "{{ cpm_installationautomation_folder }}\\Registration\\RegistrationTool\\"
-    dest: "{{ cpm_registrationtool_folder }}"
+    src: "{{ psm_installationautomation_folder }}\\Registration\\RegistrationTool\\"
+    dest: "{{ psm_registrationtool_folder }}"
     remote_src: yes
