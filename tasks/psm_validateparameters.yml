@@ -45,7 +45,7 @@
 #     - psm_exists and psm_scanner_exists
 #     - psm_service_info.username != "LocalSystem" and psm_scanner_service_info.username != "LocalSystem"
 
-- name: check if psm service status
+- name: check psm service status
   win_service: 
     name: "{{ psm_service_name }}"
   register: psm_service_info

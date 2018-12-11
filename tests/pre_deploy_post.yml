@@ -46,7 +46,7 @@
   gather_facts: false
   
   vars_prompt:
-    - name: vault_password
+    - name: vault_password 
       prompt: "Please enter the Vault password"
       private: yes
       when: psm_registration
@@ -66,8 +66,6 @@
         - psm_prerequisites: true
         - psm_install: true
         - psm_postinstall: true
-        - psm_hardening: true
-        - psm_registration: true
         - psm_zip_file_path: "/tmp/pas_packages/psm.zip"
         - vault_port: 1858
         - vault_username: administrator
