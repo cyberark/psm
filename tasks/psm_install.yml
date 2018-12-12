@@ -19,4 +19,4 @@
   register: psm_service_info
   
 - set_fact:
-    psm_exists: "{{ psm_service_name.exists }}"
+    psm_exists: "{{ psm_service_info.exists }}"
