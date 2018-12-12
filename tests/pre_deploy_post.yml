@@ -49,7 +49,6 @@
     - name: vault_password 
       prompt: "Please enter the Vault password"
       private: yes
-      when: psm_registration # This is not working, the when step occure before gather facts so the psm_registration is always null
       
   tasks:
   
