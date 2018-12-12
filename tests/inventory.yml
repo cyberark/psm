@@ -11,6 +11,8 @@ localhost:
 
 
 windows:
+  hosts:
+    34.240.36.70
   vars:
     any_errors_fatal: true
     ansible_python_interpreter: python

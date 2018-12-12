@@ -4,21 +4,19 @@
   connection: local
   gather_facts: false
   
-  vars_prompt:
-    - name: vault_password
-      prompt: "Please enter the Vault password"
-      private: yes
-      
   tasks:
-  
+    
     - include_role: 
-        name: ../cpm
+        name: ../psm
       vars:
         - accept_eula: "YeS"
-        - cpm_extract: true
-        - cpm_install: true
-        - cpm_hardening: true
-        - cpm_registration: true
-        - cpm_zip_file_path: "/tmp/pas_packages/cpm.zip"
+        - psm_extract: true
+        - psm_prerequisites: true
+        - psm_install: true
+        - psm_postinstall: true
+        - psm_hardening: false
+        - psm_registration: false
+        - psm_installation_path: "C:\\TestFolder"
+        - psm_zip_file_path: "/tmp/pas_packages/psm.zip"
         - vault_port: 1858
         - vault_username: administrator
