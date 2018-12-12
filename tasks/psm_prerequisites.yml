@@ -19,13 +19,8 @@
         exit 0
     }
 
-- name: Restart server to apply RDS
-  win_shell: Restart-Computer -Force
-    
-- name: wait for port 5986 on destination instance
-  wait_for_connection:
-    delay: 20
-    timeout: 600
+- win_reboot:
+    reboot_timeout: 300
     
 - name: continue execute psm prerequisities after restart
   win_shell: |
