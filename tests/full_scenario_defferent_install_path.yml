@@ -46,7 +46,7 @@
   gather_facts: false
   
   tasks:
-
+    
     - pause:
         prompt: "Please enter the Vault password"
         echo: no
@@ -54,7 +54,7 @@
       when: 
         - psm_registration is defined
         - psm_registration
-        
+  
     - name: wait for port 5986 on destination instance
       wait_for_connection:
         delay: 20
@@ -68,8 +68,9 @@
         - psm_prerequisites: true
         - psm_install: true
         - psm_postinstall: true
-        - psm_hardening: true
-        - psm_registration: true
+        - psm_hardening: false
+        - psm_registration: false
+        - psm_installation_path: "C:\\TestFolder"
         - psm_zip_file_path: "/tmp/pas_packages/psm.zip"
         - vault_port: 1858
         - vault_username: administrator

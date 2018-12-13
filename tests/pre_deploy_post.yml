@@ -45,12 +45,20 @@
   connection: local
   gather_facts: no
   
-  vars_prompt:
-    - name: vault_password 
-      prompt: "Please enter the Vault password"
-      private: yes
+  # vars_prompt:
+  #   - name: vault_password 
+  #     prompt: "Please enter the Vault password"
+  #     private: yes
       
   tasks:
+  
+    - pause:
+        prompt: "Please enter the Vault password"
+        echo: no
+      register: vault_password
+      when: 
+        - psm_registration is defined
+        - psm_registration
   
     - name: wait for port 5986 on destination instance
       wait_for_connection:

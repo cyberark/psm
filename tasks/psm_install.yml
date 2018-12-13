@@ -1,6 +1,26 @@
 ---
 # tasks file for psm installation
 
+- name: set installation folder on xml config file
+  win_shell: |
+    try
+    {
+        ### This script set the install directory received from var in the install config file
+        $filePath = "{{ psm_installationautomation_folder }}\\Installation\\InstallationConfig.xml"
+        $xml = [xml](Get-Content $filePath)
+        $step1 = $xml.SelectSingleNode("//Parameter[@Name = 'InstallationDirectory']")
+        $step1.Value = "{{ psm_installation_path }}"
+        $step2 = $xml.SelectSingleNode("//Parameter[@Name = 'RecordingDirectory']")
+        $step2.Value = "{{ psm_installation_path }}\\PSM\\Recordings"
+        $xml.Save($filePath)
+        exit 0
+    }
+    catch
+    {
+        Write-Output "Error occured during SetAtrributeInXML"
+        exit 1
+    }
+
 - name: execute psm installation
   win_shell: |
     Set-Location "{{ psm_installationautomation_folder }}"

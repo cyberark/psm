@@ -1,2 +1,36 @@
 ---
-# tasks file for cpm postinstall
+# tasks file for psm postinstall
+
+- name: execute psm post installation
+  win_shell: |
+    Set-Location "{{ psm_installationautomation_folder }}"
+    $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\PostInstallation\PostInstallationConfig.xml" -displayJson
+    $Action | Out-File -FilePath "{{ psm_installationautomation_folder }}\psm_post_install_result.txt"
+    $Result = Get-Content "{{ psm_installationautomation_folder }}\psm_post_install_result.txt" | ConvertFrom-Json
+    if ($Result.isSucceeded -eq 2) {
+        exit 1
+    } else {
+        exit 0
+    }
+
+- name: validate users exists and password expiration
+  win_shell: |
+    $ErrorActionPreference = "Stop"
+
+    try {
+        $user = gwmi -class Win32_UserAccount | Where {$_.Name -eq 'PSMConnect'}
+        if ($user -eq $null)
+        {
+          exit  1
+        }
+        $user = gwmi -class Win32_UserAccount | Where {$_.Name -eq 'PSMAdminConnect'}
+        if ($user -eq $null)
+        {
+          exit  1
+        }
+        
+        exit 0
+    } catch {
+        Write-Output "Error occured: $error"
+        exit 1
+    }
