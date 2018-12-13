@@ -1,6 +1,26 @@
 ---
 # tasks file for psm prerequisities
 
+- name: update NLA & UpdateRDSSecurityLayer installation
+  win_shell: |
+    try
+    {
+        $filePath = "{{ psm_installationautomation_folder }}\\Prerequisites\\PrerequisitesConfig.xml"
+        $xml = [xml](Get-Content $filePath)
+        #$xml.Stage.Step | Where-Object {$_.Name -eq "UpdateRDSSecurityLayer"}
+        $step1 = $xml.SelectSingleNode("//Step[@Name = 'DisableNLA']")
+        $step1.Enable = 'Yes'
+        $step2 = $xml.SelectSingleNode("//Step[@Name = 'UpdateRDSSecurityLayer']")
+        $step2.Enable = 'Yes'
+        $xml.Save($filePath)
+        exit 0
+    }
+    catch
+    {
+        Write-Output "Error occured during SetAtrributeInXML"
+        exit 1
+    }
+
 - name: execute psm prerequisities
   win_shell: |
     
@@ -24,7 +44,7 @@
     
 - name: continue execute psm prerequisities after restart
   win_shell: |
-  
+    
     Set-Location "{{ psm_installationautomation_folder }}"
     $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\Prerequisites\PrerequisitesConfig.xml" -displayJson
     $Action | Out-File -FilePath "{{ psm_installationautomation_folder }}\psm_pre_req_result.txt"
