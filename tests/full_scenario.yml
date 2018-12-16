@@ -44,17 +44,15 @@
 - hosts: windows
   connection: local
   gather_facts: false
-  
+  vars:
+    ansible_become: yes
+    ansible_become_method: runas
+    ansible_become_user: "{{ ansible_user }}"
+    ansible_become_pass: "{{ ansible_password }}"
+    ansible_become_flags: logon_type=new_credentials logon_flags=netcredentials_only
+    
   tasks:
 
-    - pause:
-        prompt: "Please enter the Vault password"
-        echo: no
-      register: vault_password
-      when: 
-        - psm_registration is defined
-        - psm_registration
-        
     - name: wait for port 5986 on destination instance
       wait_for_connection:
         delay: 20

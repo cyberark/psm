@@ -3,7 +3,14 @@
 - hosts: windows
   connection: local
   gather_facts: false
-  
+
+  vars:
+    ansible_become: yes
+    ansible_become_method: runas
+    ansible_become_user: "{{ ansible_user }}"
+    ansible_become_pass: "{{ ansible_password }}"
+    ansible_become_flags: logon_type=new_credentials logon_flags=netcredentials_only
+
   tasks:
     
     - include_role: 
@@ -14,9 +21,10 @@
         - psm_prerequisites: true
         - psm_install: true
         - psm_postinstall: true
-        - psm_hardening: false
+        - psm_hardening: true
         - psm_registration: false
-        - psm_installation_path: "C:\\TestFolder"
+        # - psm_installation_path: "C:\\TestFolder"
         - psm_zip_file_path: "/tmp/pas_packages/psm.zip"
         - vault_port: 1858
         - vault_username: administrator
+        - psm_out_of_domain: true

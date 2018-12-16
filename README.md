@@ -46,6 +46,7 @@ A list of vaiables the playbook is using
 | vault_password                   | yes          | None                                                                           | vault password to perform registration   |
 | pvwa_url                         | yes          | None                                                                           | URL of registered PVWA                   |
 | accept_eula                      | yes          | "No"                                                                           | Accepting EULA condition                 |
+| psm_out_of_domain                | no           | false                                                                          | Flag if server is out of domain          |
 
 
 ## Usage 

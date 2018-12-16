@@ -25,5 +25,6 @@ psm_installationautomation_folder: "{{ psm_extract_folder }}\\{{ psm_component_f
 psm_installation_drive: "C:"
 psm_installation_path: "{{ psm_installation_drive }}\\Program Files (x86)\\CyberArk"
 psm_registrationtool_folder: "{{ psm_base_bin_drive }}\\Cyberark\\Components Registration"
+psm_out_of_domain: false
 
 accept_eula: "No"

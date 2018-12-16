@@ -40,11 +40,19 @@
     - add_host:
         hostname: "{{ec2_details.instances[0].public_ip}}"
         groups: windows
+        
 
 - hosts: windows
   connection: local
   gather_facts: no
   
+  vars:
+    ansible_become: yes
+    ansible_become_method: runas
+    ansible_become_user: "{{ ansible_user }}"
+    ansible_become_pass: "{{ ansible_password }}"
+    ansible_become_flags: logon_type=new_credentials logon_flags=netcredentials_only
+    
   # vars_prompt:
   #   - name: vault_password 
   #     prompt: "Please enter the Vault password"
@@ -73,6 +81,8 @@
         - psm_prerequisites: true
         - psm_install: true
         - psm_postinstall: true
+        - psm_hardening: true
         - psm_zip_file_path: "/tmp/pas_packages/psm.zip"
         - vault_port: 1858
         - vault_username: administrator
+        - psm_out_of_domain: "Yes"

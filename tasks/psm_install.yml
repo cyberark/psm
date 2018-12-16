@@ -11,7 +11,7 @@
         $step1 = $xml.SelectSingleNode("//Parameter[@Name = 'InstallationDirectory']")
         $step1.Value = "{{ psm_installation_path }}"
         $step2 = $xml.SelectSingleNode("//Parameter[@Name = 'RecordingDirectory']")
-        $step2.Value = "{{ psm_installation_path }}\\PSM\\Recordings"
+        $step2.Value = "{{ psm_installation_path }}\PSM\Recordings"
         $xml.Save($filePath)
         exit 0
     }
