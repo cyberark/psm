@@ -1,14 +1,6 @@
 ---
 # tasks file for psm_hardening
 
-# - set_fact:
-#     psm_domain: '{{ "Yes" if psm_out_of_domain else "No" }}'
-# - debug: msg="{{psm_domain}}"
-
-# - set_fact:
-#     psm_d: "Yes"
-# - debug: msg="{{psm_d}}"
-  
 - name: update psm out-of-domain parameter
   win_shell: |
     try
@@ -26,6 +18,20 @@
         Write-Output "Error occured setting out-of-domain parameter"
         exit 1
     }
+    
+- name: update psm hardening app-locaker folders
+  win_shell: |
+    try
+    {
+        (Get-Content {{ psm_installation_path }}\PSM\Hardening\PSMConfigureAppLocker.xml).replace('C:\Program Files (x86)\CyberArk\PSM\Components', '{{ psm_installation_path }}\PSM\Components') | Set-Content {{ psm_installation_path }}\PSM\Hardening\PSMConfigureAppLocker.xml
+        exit 0
+    }
+    catch
+    {
+        Write-Output "Error configuring app-locker folders"
+        exit 1
+    }
+
 
 - name: run psm hardening
   win_shell: |
