@@ -19,7 +19,7 @@
         exit 1
     }
     
-- name: update psm hardening app-locaker folders
+- name: update psm hardening app-locker folders
   win_shell: |
     try
     {

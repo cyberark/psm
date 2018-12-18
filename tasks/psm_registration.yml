@@ -10,6 +10,7 @@
   win_service:
     name: "{{ psm_service_name }}"
     start_mode: auto
+    state: started
 
 - name: check if psm service is running
   win_service: 

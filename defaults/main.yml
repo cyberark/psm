@@ -29,3 +29,4 @@ psm_out_of_domain: false
 
 accept_eula: "No"
 accept_sql_eula: "No"
+psm_disable_nla: "No"

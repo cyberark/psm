@@ -48,7 +48,7 @@ A list of vaiables the playbook is using
 | accept_eula                      | yes          | "No"                                                                           | Accepting EULA condition                 |
 | accept_sql_eula                  | yes          | "No"                                                                           | Accepting SQL condition                  |
 | psm_out_of_domain                | no           | false                                                                          | Flag if server is out of domain          |
-| psm_disable_nla                  | yes          | None                                                                           | Flag if server is out of domain          |
+| psm_disable_nla                  | yes          | "No"                                                                           | Disable NLA                              |
 
 
 ## Usage 
