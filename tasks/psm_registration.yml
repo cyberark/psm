@@ -1,5 +1,17 @@
 ---
 # tasks file for cpm registration
+- name: validate if pvwa ip is defined
+  fail:
+    msg: "PVWA ip must be sent in order to register PSM"
+  when: pvwa_ip is not defined
+  
+- name: copy ps1 script to server
+  win_copy:
+    src: "./files/add_admin_to_psmmaster.ps1 {{ vault_username }} {{ vault_password }} {{ pvwa_url }}"
+    dest: "{{ psm_registrationtool_folder }}"
+
+- name: add user administrator to PSMMaster group
+  win_command: "powershell.exe -file {{ psm_registrationtool_folder }}\\add_admin_to_psmmaster.ps1 -username {{ vault_username }} -password {{ vault_password }} -$pvwaIp {{ pvwa_url }}"
 
 - name: Execute cpm registration
   win_command: 'RegisterComponent.exe CPM /accepteula Yes /vaultip {{ vault_ip }} /vaultport {{ vault_port }} /vaultuser {{ vault_username }} /vaultpassword {{ vault_password }} /installdir "{{ cpm_installation_path }}"'

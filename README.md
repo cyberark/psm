@@ -18,35 +18,34 @@ A list of vaiables the playbook is using
 
 **Flow Variables**
                     
-| Variable                         | Required     | Default                                                                        | Comments                                 |
-|----------------------------------|--------------|--------------------------------------------------------------------------------|------------------------------------------|
-| psm_prerequisites                | no           | false                                                                          | Install psm pre requisites               |
-| psm_install                      | no           | false                                                                          | Install psm                              |
-| psm_postinstall                  | no           | false                                                                          | psm port install role                    |
-| psm_hardening                    | no           | false                                                                          | psm hardening role                       |
-| psm_registration                 | no           | false                                                                          | psm Register with Vault                  |
-| psm_upgrade                      | no           | false                                                                          | N/A                                      |
-| psm_clean                        | no           | false                                                                          | Clean server after deployment            |
-| psm_uninstall                    | no           | false                                                                          | N/A                                      |
-
-**Deployment Variables**
-
-| Variable                         | Required     | Default                                                                        | Comments                                 |
-|----------------------------------|--------------|--------------------------------------------------------------------------------|------------------------------------------|
-| psm_base_bin_drive               | no           | "C:"                                                                           | Base path to extract CyberArk packages   |
-| psm_zip_file_path                | yes          | None                                                                           | Zip File path of CyberArk packages       |
-| psm_extract_folder               | no           | "{{psm_base_bin_drive}}\\Cyberark\\packages"                                   | Path to extract the CyberArk packages    |
-| psm_artifact_name                | no           | "psm.zip"                                                                      | zip file name of psm package             |
-| psm_component_folder             | no           | "PSM"                                                                          | The name of psm unzip folder             |
-| psm_installation_drive           | no           | "C:"                                                                           | Base drive to install psm                |
-| vault_ip                         | yes          | None                                                                           | Vault ip to perform registration         |
-| dr_vault_ip                      | no           | None                                                                           | vault dr ip to perform registration      |
-| vault_port                       | no           | 1858                                                                           | vault port                               |
-| vault_username                   | no           | "administrator"                                                                | vault username to perform registration   |
-| vault_password                   | yes          | None                                                                           | vault password to perform registration   |
-| pvwa_url                         | yes          | None                                                                           | URL of registered PVWA                   |
-| accept_eula                      | yes          | "No"                                                                           | Accepting EULA condition                 |
-| psm_out_of_domain                | no           | false                                                                          | Flag if server is out of domain          |
+| Variable                         | Required     | Default                                          | Comments                                        |
+|----------------------------------|--------------|--------------------------------------------------|-------------------------------------------------|
+| psm_prerequisites                | no           | false                                            | Install psm pre requisites                      |
+| psm_install                      | no           | false                                            | Install psm                                     |
+| psm_postinstall                  | no           | false                                            | psm port install role                           |
+| psm_hardening                    | no           | false                                            | psm hardening role                              |
+| psm_registration                 | no           | false                                            | psm Register with Vault                         |
+| psm_upgrade                      | no           | false                                            | N/A                                             |
+| psm_clean                        | no           | false                                            | Clean server after deployment                   |
+| psm_uninstall                    | no           | false                                            | N/A                                             |
+**Deployment Variables**       
+       
+| Variable                         | Required     | Default                                          | Comments                                        |
+|----------------------------------|--------------|--------------------------------------------------|-------------------------------------------------|
+| psm_base_bin_drive               | no           | "C:"                                             | Base path to extract CyberArk packages          |
+| psm_zip_file_path                | yes          | None                                             | Zip File path of CyberArk packages              |
+| psm_extract_folder               | no           | "{{psm_base_bin_drive}}\\Cyberark\\packages"     | Path to extract the CyberArk packages           |
+| psm_artifact_name                | no           | "psm.zip"                                        | zip file name of psm package                    |
+| psm_component_folder             | no           | "PSM"                                            | The name of psm unzip folder                    |
+| psm_installation_drive           | no           | "C:"                                             | Base drive to install psm                       |
+| vault_ip                         | yes          | None                                             | Vault ip to perform registration                |
+| dr_vault_ip                      | no           | None                                             | vault dr ip to perform registration             |
+| vault_port                       | no           | 1858                                             | vault port                                      |
+| vault_username                   | no           | "administrator"                                  | vault username to perform registration          |
+| vault_password                   | yes          | None                                             | vault password to perform registration          |
+| pvwa_ip                          | no           | None                                             | IP of registered PVWA -required for registration|
+| accept_eula                      | yes          | "No"                                             | Accepting EULA condition                        |
+| psm_out_of_domain                | no           | false                                            | Flag if server is out of domain                 |
 
 
 ## Usage 

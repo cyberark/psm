@@ -51,6 +51,11 @@
     ansible_become_pass: "{{ ansible_password }}"
     ansible_become_flags: logon_type=new_credentials logon_flags=netcredentials_only
     
+  vars_prompt:
+    - name: vault_password
+      prompt: "Please enter the Vault password"
+      private: yes
+      
   tasks:
 
     - name: wait for port 5986 on destination instance
