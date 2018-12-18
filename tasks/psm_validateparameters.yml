@@ -4,6 +4,16 @@
   fail:
     msg: "You must accept EULA to start the playbook"
   when: accept_eula|lower != "yes"
+  
+- name: check SQL EULA is accepted
+  fail:
+    msg: "You must accept SQL EULA to start the playbook"
+  when: accept_sql_eula|lower != "yes"
+
+- name: check if psm_disable_nla is defined
+  fail: 
+    msg: "psm_disable_nla must be accepted in order to install PSM"
+  when: psm_disable_nla|lower != 'yes'
 
 - name: check if psm_zip_file_path undefined
   fail: 
