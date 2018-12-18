@@ -7,7 +7,6 @@
     {
         $filePath = "{{ psm_installationautomation_folder }}\\Prerequisites\\PrerequisitesConfig.xml"
         $xml = [xml](Get-Content $filePath)
-        #$xml.Stage.Step | Where-Object {$_.Name -eq "UpdateRDSSecurityLayer"}
         $step1 = $xml.SelectSingleNode("//Step[@Name = 'DisableNLA']")
         $step1.Enable = 'Yes'
         $step2 = $xml.SelectSingleNode("//Step[@Name = 'UpdateRDSSecurityLayer']")

@@ -33,7 +33,7 @@
         exit 0
     }
 
-- name: check if psm service status
+- name: check psm service status
   win_service: 
     name: "{{ psm_service_name }}"
   register: psm_service_info
