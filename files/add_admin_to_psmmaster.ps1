@@ -12,12 +12,7 @@
 
 	)
 
-#$username = 'administrator'
-#$password = 'F3ralde9E123$'
-#$pvwaIp = '10.2.0.118'
 $logonUrl = 'https://{0}/PasswordVault/API/auth/{1}/Logon' -f $pvwaIp, $authenticationType
-
-#$restUrl = 'https://{0}/PasswordVault/WebServices/auth/Cyberark/CyberArkAuthenticationService.svc/Logon' -f $pvwaIp 
 
 
 ### ignore certificates
@@ -35,19 +30,18 @@ add-type @"
 [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-$restLogonBody = @'
-{
-    "username": $($username),
-    "password": $($password),
-}
-'@
+$restLogonBody = @{
+    "username" = $username
+    "password" = $password
+} | ConvertTo-Json
+
 
 $sessionToken = ''
 
 ## Logon to PVWA
 try
 {
-    $sessionToken = Invoke-RestMethod -Method Post -Uri $logonUrl -Body $JSON -ContentType "application/json" 
+    $sessionToken = Invoke-RestMethod -Method Post -Uri $logonUrl -Body $restLogonBody -ContentType "application/json" 
 }
 catch
 {
@@ -80,11 +74,9 @@ if($response.count -le 0)
     return -1
 }
 
-$restBody = @'
-{
-    "memberId": "administrator"
-}
-'@
+$restBody = @{
+    "memberId" = "administrator"
+} | ConvertTo-Json
 
 ## Add user to the Group
 try {
@@ -104,5 +96,5 @@ catch
 ## Logout from PVWA
 $logoffUrl = 'https://{0}/PasswordVault/API/auth/Logoff' -f $pvwaIp
 $response = Invoke-RestMethod -Method Post -Uri $logoffUrl -ContentType "application/json" -Headers $headers
-
+Write-Host ("successfully Logged out")
 write-host('###### Finished successfully adding user to group #######')

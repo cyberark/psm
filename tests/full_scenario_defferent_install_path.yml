@@ -79,3 +79,6 @@
         - psm_zip_file_path: "/tmp/pas_packages/psm.zip"
         - vault_port: 1858
         - vault_username: administrator
+        - psm_disable_nla: "Yes"
+        - psm_out_of_domain: true
+        - pvwa_ip: 5.5.5.5
