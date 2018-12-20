@@ -30,3 +30,8 @@ psm_out_of_domain: false
 accept_eula: "No"
 accept_sql_eula: "No"
 psm_disable_nla: "No"
+
+psm_prerequisites_log: "{{ psm_installationautomation_folder }}\psm_pre_req_result.txt"
+psm_install_log: "{{ psm_installationautomation_folder }}\\psm_installation_result.txt"
+psm_postinstall_log: "{{ psm_installationautomation_folder }}\psm_post_install_result.txt"
+psm_hardening_log: "{{ psm_installationautomation_folder }}\\psm_hardening_result.txt"
