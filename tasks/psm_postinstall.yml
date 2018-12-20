@@ -10,7 +10,7 @@
         $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\PostInstallation\PostInstallationConfig.xml" -displayJson
         $Action | Out-File -FilePath "{{ psm_postinstall_log }}"
         $Result = Get-Content "{{ psm_postinstall_log }}" | ConvertFrom-Json
-        if ($Result.isSucceeded -eq 2) {
+        if ($Result.isSucceeded -ne 0) {
             exit 1
         } else {
             exit 0

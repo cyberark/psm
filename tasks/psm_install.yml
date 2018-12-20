@@ -28,9 +28,9 @@
       win_shell: |
         Set-Location "{{ psm_installationautomation_folder }}"
         $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\Installation\InstallationConfig.xml" -displayJson -delayedrestart
-        $Action | Out-File -FilePath "{{ psm_installationautomation_folder }}\psm_installation_result.txt"
-        $Result = Get-Content "{{ psm_installationautomation_folder }}\psm_installation_result.txt" | ConvertFrom-Json
-        if ($Result.isSucceeded -eq 2) {
+        $Action | Out-File -FilePath "{{ psm_install_log }}"
+        $Result = Get-Content "{{ psm_install_log }}" | ConvertFrom-Json
+        if ($Result.isSucceeded -ne 0) {
             exit 1
         } else {
             exit 0

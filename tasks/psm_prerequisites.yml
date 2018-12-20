@@ -51,7 +51,7 @@
         $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\Prerequisites\PrerequisitesConfig.xml" -displayJson
         $Action | Out-File -FilePath "{{ psm_prerequisites_log }}"
         $Result = Get-Content "{{ psm_prerequisites_log }}" | ConvertFrom-Json
-        if ($Result.isSucceeded -eq 2) {
+        if ($Result.isSucceeded -ne 0) {
             exit 1
         } else {
             exit 0
