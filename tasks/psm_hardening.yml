@@ -77,6 +77,7 @@
         }
     }
     exit 1
+  when: psm_out_of_domain
   
 - set_fact:
     psm_hardened: true

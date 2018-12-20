@@ -1,5 +1,19 @@
 ---
-# tasks file for psm registration
+# tasks file for cpm registration
+- name: validate if pvwa ip is defined
+  fail:
+    msg: "PVWA ip must be sent in order to register PSM"
+  when: pvwa_ip is not defined
+  
+- name: copy ps1 script to server
+  win_copy:
+    src: "./files/add_admin_to_psmmaster.ps1"
+    dest: "C:\\Temp\\"
+
+- name: add user administrator to PSMMaster group
+  win_command: | 
+    
+    powershell.exe -command "& C:\\Temp\\add_admin_to_psmmaster.ps1 -username {{ vault_username }} -password {{ vault_password }} -pvwaIp {{ pvwa_ip }}"
 
 - name: Registration Block
   block:
