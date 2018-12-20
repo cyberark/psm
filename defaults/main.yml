@@ -35,6 +35,7 @@ psm_prerequisites_log: "{{ psm_installationautomation_folder }}\psm_pre_req_resu
 psm_install_log: "{{ psm_installationautomation_folder }}\\psm_installation_result.txt"
 psm_postinstall_log: "{{ psm_installationautomation_folder }}\psm_post_install_result.txt"
 psm_hardening_log: "{{ psm_installationautomation_folder }}\\psm_hardening_result.txt"
+psm_registration_log: "{{ psm_registrationtool_folder }}\\Log\\RegisterComponent.log"
 
 vault_username: "administrator"
 vault_port: 1858
