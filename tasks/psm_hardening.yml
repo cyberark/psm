@@ -23,12 +23,12 @@
   win_shell: |
     try
     {
-        (Get-Content {{ psm_installation_path }}\PSM\Hardening\PSMConfigureAppLocker.xml).replace('C:\Program Files (x86)\CyberArk\PSM\Components', '{{ psm_installation_path }}\PSM\Components') | Set-Content {{ psm_installation_path }}\PSM\Hardening\PSMConfigureAppLocker.xml
+        (Get-Content "{{ psm_installation_path }}\PSM\Hardening\PSMConfigureAppLocker.xml").replace("C:\Program Files (x86)\CyberArk\PSM\Components", "{{ psm_installation_path }}\PSM\Components") | Set-Content "{{ psm_installation_path }}\PSM\Hardening\PSMConfigureAppLocker.xml"
         exit 0
     }
     catch
     {
-        Write-Output "Error configuring app-locker folders"
+        Write-Output "Error configuring app-locker folders: {0}" -f $PSItem
         exit 1
     }
 
