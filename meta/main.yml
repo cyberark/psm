@@ -5,7 +5,7 @@ galaxy_info:
     - Avishay Bar
     - Ziv Lifshits
     - Maish Saidel-Keesing
-  description: Installs CyberArk CPM software
+  description: Installs CyberArk PSM software
   company: CyberArk
   license: Apache2
 
@@ -17,7 +17,7 @@ galaxy_info:
     - 2016
 
   galaxy_tags:
-    - cpm
+    - psm
     - cyberark
     - security
 
