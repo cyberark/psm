@@ -1,5 +1,5 @@
 ---
-# tasks file for cpm_extract
+# tasks file for psm_clean
 - name: Set CyberArk Password Manager Service Startup Mode to Manual
   win_service:
     name: CyberArk Password Manager
@@ -14,7 +14,7 @@
     
 - name: Find all inf files
   win_find: 
-    paths: "{{ cpm_installation_path }}\\Logs"
+    paths: "{{ psm_installation_path }}\\Logs"
     patterns: ['*.*']
   register: files_to_delete
 
@@ -25,8 +25,8 @@
   
 - name: Clean Windows\\Temp Folder
   win_find: 
-    paths: "{{ cpm_installation_drive }}\\Windows\\Temp"
-    patterns: ['CPM*.*', 'InstallationAutomation*.*']
+    paths: "{{ psm_installation_drive }}\\Windows\\Temp"
+    patterns: ['PSM*.*', 'InstallationAutomation*.*']
   register: files_to_delete
   
 - win_file:
@@ -35,6 +35,6 @@
   with_items: "{{ files_to_delete.files }}"
   
 - win_file:
-    path: "{{ cpm_extract_folder }}"
+    path: "{{ psm_extract_folder }}"
     state: absent
 
