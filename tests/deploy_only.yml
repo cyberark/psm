@@ -4,8 +4,7 @@
   connection: local
   
   tasks:
-  
-  
+
     - name: spin up EC2 instance
       ec2:
         aws_access_key: "{{aws_access_key | default(omit) }}"
