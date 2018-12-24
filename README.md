@@ -1,38 +1,109 @@
-Role Name
-=========
+# psm
 
-A brief description of the role goes here.
+This Playbook will install the CyberArk psm software on a Windows 2016 server / VM / instance
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- Windows 2016 must be installed on the server
+- Administrator credentials (either Local or Domain)
+- Network connection to the vault and the repository server
+- Location of psm CD image
+- PAS packages version 10.5 and above
 
-Role Variables
---------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## Role Variables
 
-Dependencies
-------------
+A list of vaiables the playbook is using 
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+**Flow Variables**
+                    
+| Variable                         | Required     | Default                                                                        | Comments                                 |
+|----------------------------------|--------------|--------------------------------------------------------------------------------|------------------------------------------|
+| psm_prerequisites                | no           | false                                                                          | Install psm pre requisites               |
+| psm_install                      | no           | false                                                                          | Install psm                              |
+| psm_postinstall                  | no           | false                                                                          | psm port install role                    |
+| psm_hardening                    | no           | false                                                                          | psm hardening role                       |
+| psm_registration                 | no           | false                                                                          | psm Register with Vault                  |
+| psm_upgrade                      | no           | false                                                                          | N/A                                      |
+| psm_clean                        | no           | false                                                                          | Clean server after deployment            |
+| psm_uninstall                    | no           | false                                                                          | N/A                                      |
 
-Example Playbook
-----------------
+**Deployment Variables**
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+| Variable                         | Required     | Default                                                                        | Comments                                 |
+|----------------------------------|--------------|--------------------------------------------------------------------------------|------------------------------------------|
+| psm_base_bin_drive               | no           | "C:"                                                                           | Base path to extract CyberArk packages   |
+| psm_zip_file_path                | yes          | None                                                                           | Zip File path of CyberArk packages       |
+| psm_extract_folder               | no           | "{{psm_base_bin_drive}}\\Cyberark\\packages"                                   | Path to extract the CyberArk packages    |
+| psm_artifact_name                | no           | "psm.zip"                                                                      | zip file name of psm package             |
+| psm_component_folder             | no           | "PSM"                                                                          | The name of psm unzip folder             |
+| psm_installation_drive           | no           | "C:"                                                                           | Base drive to install psm                |
+| vault_ip                         | yes          | None                                                                           | Vault ip to perform registration         |
+| dr_vault_ip                      | no           | None                                                                           | vault dr ip to perform registration      |
+| vault_port                       | no           | 1858                                                                           | vault port                               |
+| vault_username                   | no           | "administrator"                                                                | vault username to perform registration   |
+| vault_password                   | yes          | None                                                                           | vault password to perform registration   |
+| pvwa_url                         | yes          | None                                                                           | URL of registered PVWA                   |
+| accept_eula                      | yes          | "No"                                                                           | Accepting EULA condition                 |
+| psm_out_of_domain                | no           | false                                                                          | Flag if server is out of domain          |
+| psm_disable_nla                  | yes          | "No"                                                                           | This will disable NLA on the server      |
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
 
-License
--------
+## Usage 
 
-BSD
+**psm_prerequisites**
 
-Author Information
-------------------
+This task will run the psm pre-requisites steps
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+**psm_install**
+
+This task will deploy the psm to required folder and validate deployment succeed.
+
+**psm_postinstall**
+
+This task will run the psm post installation steps
+
+**psm_hardening**
+
+This task will run the psm hardening process
+
+**psm_registration**
+
+This task perform registration with active Vault
+
+**psm_validateparameters**
+
+This task validate which psm steps already occurred on the server so the other tasks won't run again
+
+**psm_clean**
+
+This task will clean inf files from installation, delete psm installation logs from Temp folder & Delete cred files
+
+
+## Example Playbook
+
+Example playbook to show how to call the psm main playbook with several parameters:
+
+    ---
+    - hosts: localhost
+      connection: local
+      tasks:
+        - include_task:
+            name: main
+          vars:
+            psm_prerequisites: true
+            psm_install: true
+            psm_postinstall: true
+            psm_hardening: true
+            psm_clean: true
+
+## Running the  playbook:
+
+To run the above playbook:
+
+    ansible-playbook -i ../inventory.yml psm-orchestrator.yml -e "psm_install=true psm_installation_drive='D:'"
+
+## License
+
+Apache 2

@@ -1,0 +1,55 @@
+---
+# tasks file for psm registration
+- name: validate if pvwa ip is defined
+  fail:
+    msg: "PVWA ip must be sent in order to register PSM"
+  when: pvwa_ip is not defined
+  
+- name: copy ps1 script to server
+  win_copy:
+    src: "./files/add_admin_to_psmmaster.ps1"
+    dest: "C:\\Temp\\"
+
+- name: add user administrator to PSMMaster group
+  win_command: | 
+    
+    powershell.exe -command "& C:\\Temp\\add_admin_to_psmmaster.ps1 -username {{ vault_username }} -password {{ vault_password }} -pvwaIp {{ pvwa_ip }}"
+
+- name: Registration Block
+  block:
+
+    - name: Execute psm registration
+      win_command: 'RegisterComponent.exe PSM /accepteula Yes /vaultip {{ vault_ip }} /vaultport {{ vault_port }} /vaultuser {{ vault_username }} /vaultpassword {{ vault_password }} /psminstalldir "{{ psm_installation_path }}"'
+      args:
+        chdir: "{{ psm_registrationtool_folder }}"
+    
+    - name: start psm service & set to auto
+      win_service:
+        name: "{{ psm_service_name }}"
+        start_mode: auto
+        state: started
+    
+    - name: check if psm service is running
+      win_service: 
+        name: "{{ psm_service_name }}"
+      register: psm_service_info
+      
+    - set_fact:
+        psm_registered: true
+      when: psm_service_info.state == "running" 
+
+  rescue:
+
+    - name: Get log path for registration
+      win_shell: |
+        $Result = Get-Content "{{ psm_registration_log }}"
+        Write-Output $Result
+      register: log_result
+
+    - fetch:
+        src: '{{ psm_registration_log }}'
+        dest: '{{ playbook_dir }}/logs/psm/{{ inventory_hostname }}_registration.log'
+        flat: yes
+
+    - fail:
+        msg: 'ERROR: Registration failed. For more info check {{ playbook_dir }}/logs/psm/{{ inventory_hostname }}_registration.log'
