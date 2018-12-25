@@ -15,17 +15,6 @@
     msg: "psm_zip_file_path is undefined, failing..."
   when: psm_zip_file_path is not defined
 
-### TODO: Move to pas orchestrator####
-# - name: check if psm_zip_file_path exists
-#   stat:
-#     path: "{{ psm_zip_file_path }}"
-#   register: st
-#   delegate_to: localhost
-#   become: no
-  
-# - fail: 
-#     msg: "{{ psm_zip_file_path }} not exists, failing..."
-#   when: not st.stat.exists
 
 - name: check psm service status
   win_service: 

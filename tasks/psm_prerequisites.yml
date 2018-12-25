@@ -25,7 +25,7 @@
 
     - name: execute psm prerequisities
       win_shell: |
-        
+
         $RegPath = "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon"
         Set-ItemProperty $RegPath "AutoAdminLogon" -Value "1" -type String  
         Set-ItemProperty $RegPath "DefaultUsername" -Value {{ ansible_user }} -type String  
