@@ -1,5 +1,5 @@
 ---
-# tasks file for cpm registration
+# tasks file for psm registration
 - name: validate if pvwa ip is defined
   fail:
     msg: "PVWA ip must be sent in order to register PSM"
