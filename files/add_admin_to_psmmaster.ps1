@@ -75,7 +75,7 @@ if($response.count -le 0)
 }
 
 $restBody = @{
-    "memberId" = "administrator"
+    "memberId" = $username
 } | ConvertTo-Json
 
 ## Add user to the Group
