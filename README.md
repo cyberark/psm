@@ -23,12 +23,12 @@ psm_clean                        | no           | false                         
 psm_uninstall                    | no           | false                                     | N/A
 
 ### Deployment Variables
-Variable                         | Required     | Default                                              | Comments         
+Variable                         | Required     | Default                                              | Comments
 :--------------------------------|:-------------|:-----------------------------------------------------|:---------
-vault_ip                         | yes          | None                                                 | Vault IP to perform registration   
+vault_ip                         | yes          | None                                                 | Vault IP to perform registration
 vault_password                   | yes          | None                                                 | Vault password to perform registration
-pvwa_url                         | yes          | None                                                 | URL of registered PVWA                 
-accept_eula                      | yes          | **No**                                               | Accepting EULA condition       
+pvwa_url                         | yes          | None                                                 | URL of registered PVWA
+eula                             | yes          | **Decline**                                          | Accepting EULA condition (Accept/Decline)
 psm_zip_file_path                | yes          | None                                                 | Zip File path of CyberArk packages
 psm_disable_nla                  | yes          | **No**                                               | This will disable NLA on the server
 vault_username                   | no           | **administrator**                                    | Vault username to perform registration
