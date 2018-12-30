@@ -18,7 +18,7 @@
         Write-Output "Error occured setting out-of-domain parameter"
         exit 1
     }
-    
+
 - name: update psm hardening app-locker folders
   win_shell: |
     try
@@ -63,7 +63,7 @@
 
     - fail:
         msg: 'ERROR: Hardening failed. For more info check {{ playbook_dir }}/logs/psm/{{ inventory_hostname }}_hardening.log'
-    
+
 - name: validate hardening
   win_shell: |
     $policyInfPath = "C:\CyberArk\group-policy.inf"
@@ -78,7 +78,6 @@
     }
     exit 1
   when: psm_out_of_domain
-  
+
 - set_fact:
     psm_hardened: true
-    

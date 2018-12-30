@@ -35,4 +35,3 @@
   when:
     - psm_service_info.exists
     - psm_service_info.state == "running"
-
