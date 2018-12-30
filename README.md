@@ -1,7 +1,5 @@
-# PSM
-
+# PSM Ansible Role
 This playbook will install the [CyberArk PSM](https://www.cyberark.com/products/privileged-account-security-solution/core-privileged-account-security/) software on a Windows 2016 server / VM / instance.
-
 
 ## Requirements
 ------------
@@ -13,7 +11,6 @@ This playbook will install the [CyberArk PSM](https://www.cyberark.com/products/
 - pywinrm is installed on the workstation running the playbook
 
 ### Flow Variables
-
 Variable                         | Required     | Default                                   | Comments
 :--------------------------------|:-------------|:------------------------------------------|:---------
 psm_prerequisites                | no           | false                                     | Install PSM pre requisites
@@ -26,7 +23,6 @@ psm_clean                        | no           | false                         
 psm_uninstall                    | no           | false                                     | N/A
 
 ### Deployment Variables
-
 Variable                         | Required     | Default                                              | Comments         
 :--------------------------------|:-------------|:-----------------------------------------------------|:---------
 vault_ip                         | yes          | None                                                 | Vault IP to perform registration   
@@ -99,10 +95,8 @@ to call the PSM role with several parameters:
 ```
 
 ## Running the  playbook:
-
 For an example of how to incorporate this role into a complete playbook, please see the
 **[pas-orchestrator](https://github.com/cyberark/pas-orchestrator)** example.
 
 ## License
-
 [Apache 2](LICENSE)
