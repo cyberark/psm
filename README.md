@@ -1,109 +1,108 @@
-# psm
+# PSM
 
-This Playbook will install the CyberArk psm software on a Windows 2016 server / VM / instance
+This Playbook will install the [CyberArk PSM](https://www.cyberark.com/products/privileged-account-security-solution/core-privileged-account-security/) software on a Windows 2016 server / VM / instance.
 
-Requirements
+
+## Requirements
 ------------
+- The host running the playbook must have network connectivity to the remote hosts in the inventory
+- Windows 2016 must be installed on the remote host
+- Administrator credentials for access to the remote host (either Local or Domain)
+- Network connectivity to the CyberArk vault and the repository server
+- PSM package version 10.6 and above, including the location of the CD images
 
-- Windows 2016 must be installed on the server
-- Administrator credentials (either Local or Domain)
-- Network connection to the vault and the repository server
-- Location of psm CD image
-- PAS packages version 10.5 and above
+### Flow Variables
 
+Variable                         | Required     | Default                                   | Comments
+:--------------------------------|:-------------|:------------------------------------------|:---------
+psm_prerequisites                | no           | false                                     | Install PSM pre requisites
+psm_install                      | no           | false                                     | Install PSM
+psm_postinstall                  | no           | false                                     | PSM port install role
+psm_hardening                    | no           | false                                     | PSM hardening role
+psm_registration                 | no           | false                                     | PSM Register with Vault
+psm_upgrade                      | no           | false                                     | N/A
+psm_clean                        | no           | false                                     | Clean server after deployment
+psm_uninstall                    | no           | false                                     | N/A
 
-## Role Variables
+### Deployment Variables
 
-A list of vaiables the playbook is using 
-
-**Flow Variables**
-                    
-| Variable                         | Required     | Default                                                                        | Comments                                 |
-|----------------------------------|--------------|--------------------------------------------------------------------------------|------------------------------------------|
-| psm_prerequisites                | no           | false                                                                          | Install psm pre requisites               |
-| psm_install                      | no           | false                                                                          | Install psm                              |
-| psm_postinstall                  | no           | false                                                                          | psm port install role                    |
-| psm_hardening                    | no           | false                                                                          | psm hardening role                       |
-| psm_registration                 | no           | false                                                                          | psm Register with Vault                  |
-| psm_upgrade                      | no           | false                                                                          | N/A                                      |
-| psm_clean                        | no           | false                                                                          | Clean server after deployment            |
-| psm_uninstall                    | no           | false                                                                          | N/A                                      |
-
-**Deployment Variables**
-
-| Variable                         | Required     | Default                                                                        | Comments                                 |
-|----------------------------------|--------------|--------------------------------------------------------------------------------|------------------------------------------|
-| psm_base_bin_drive               | no           | "C:"                                                                           | Base path to extract CyberArk packages   |
-| psm_zip_file_path                | yes          | None                                                                           | Zip File path of CyberArk packages       |
-| psm_extract_folder               | no           | "{{psm_base_bin_drive}}\\Cyberark\\packages"                                   | Path to extract the CyberArk packages    |
-| psm_artifact_name                | no           | "psm.zip"                                                                      | zip file name of psm package             |
-| psm_component_folder             | no           | "PSM"                                                                          | The name of psm unzip folder             |
-| psm_installation_drive           | no           | "C:"                                                                           | Base drive to install psm                |
-| vault_ip                         | yes          | None                                                                           | Vault ip to perform registration         |
-| dr_vault_ip                      | no           | None                                                                           | vault dr ip to perform registration      |
-| vault_port                       | no           | 1858                                                                           | vault port                               |
-| vault_username                   | no           | "administrator"                                                                | vault username to perform registration   |
-| vault_password                   | yes          | None                                                                           | vault password to perform registration   |
-| pvwa_url                         | yes          | None                                                                           | URL of registered PVWA                   |
-| accept_eula                      | yes          | "No"                                                                           | Accepting EULA condition                 |
-| psm_out_of_domain                | no           | false                                                                          | Flag if server is out of domain          |
-| psm_disable_nla                  | yes          | "No"                                                                           | This will disable NLA on the server      |
+Variable                         | Required     | Default                                              | Comments         
+:--------------------------------|:-------------|:-----------------------------------------------------|:---------
+psm_zip_file_path                | yes          | None                                                 | Zip File path of CyberArk packages
+pvwa_url                         | yes          | None                                                 | URL of registered PVWA                 
+accept_eula                      | yes          | **No**                                               | Accepting EULA condition       
+psm_disable_nla                  | yes          | **No**                                               | This will disable NLA on the server
+vault_ip                         | yes          | None                                                 | Vault IP to perform registration   
+vault_password                   | yes          | None                                                 | Vault password to perform registration
+psm_extract_folder               | no           | **{{psm_base_bin_drive}}\\Cyberark\\packages**       | Path to extract the CyberArk packages
+psm_artifact_name                | no           | **psm.zip**                                          | Zip file name of PSM package
+psm_component_folder             | no           | **Central Policy Manager**                           | The name of PSM unzip folder
+psm_installation_drive           | no           | **C:**                                               | Base drive to install PSM
+dr_vault_ip                      | no           | None                                                 | Vault DR IP address to perform registration
+vault_port                       | no           | **1858**                                             | Vault port
+vault_username                   | no           | **administrator**                                    | Vault username to perform registration
+psm_out_of_domain                | no           | false                                                | Flag to determine if server is out of domain
+psm_base_bin_drive               | no           | **C:**                                               | Base path to extract CyberArk packages
 
 
-## Usage 
+## Dependencies
+None
 
-**psm_prerequisites**
+## Usage
+The role consists of a number of different tasks which can be enabled or disabled for the particular
+run.
 
-This task will run the psm pre-requisites steps
+`psm_prerequisites`
 
-**psm_install**
+This task will run the PSM pre-requisites steps.
 
-This task will deploy the psm to required folder and validate deployment succeed.
+`psm_install`
 
-**psm_postinstall**
+This task will deploy the PSM to required folder and validate successful deployment.
 
-This task will run the psm post installation steps
+`psm_postinstall`
 
-**psm_hardening**
+This task will run the PSM post installation steps.
 
-This task will run the psm hardening process
+`psm_hardening`
 
-**psm_registration**
+This task will run the PSM hardening process.
 
-This task perform registration with active Vault
+`psm_registration`
 
-**psm_validateparameters**
+This task will perform registration with active Vault.
 
-This task validate which psm steps already occurred on the server so the other tasks won't run again
+`psm_validateparameters`
 
-**psm_clean**
+This task will validate which PSM steps have already occurred on the server to prevent repetition.
 
-This task will clean inf files from installation, delete psm installation logs from Temp folder & Delete cred files
+`psm_clean`
+
+This task will clean the configuration (inf) files from the installation, delete the
+PSM installation logs from the Temp folder and delete the cred files.
 
 
 ## Example Playbook
+Below is an example of how you can incorporate this role into an Ansible playbook
+to call the PSM role with several parameters:
 
-Example playbook to show how to call the psm main playbook with several parameters:
-
-    ---
-    - hosts: localhost
-      connection: local
-      tasks:
-        - include_task:
-            name: main
-          vars:
-            psm_prerequisites: true
-            psm_install: true
-            psm_postinstall: true
-            psm_hardening: true
-            psm_clean: true
+```
+---
+- include_role:
+    name: psm
+  vars:
+    - psm_prerequisites: true
+    - psm_install: true
+    - psm_postinstall: true
+    - psm_hardening: true
+    - ps_clean: true
+```
 
 ## Running the  playbook:
 
-To run the above playbook:
-
-    ansible-playbook -i ../inventory.yml psm-orchestrator.yml -e "psm_install=true psm_installation_drive='D:'"
+For an example of how to incorporate this role into a complete playbook, please see the
+**[pas-orchestrator](https://github.com/cyberark/pas-orchestrator)** example.
 
 ## License
 
-Apache 2
+[Apache 2](LICENSE)
