@@ -15,6 +15,11 @@
     msg: "psm_zip_file_path is undefined, failing..."
   when: psm_zip_file_path is not defined
 
+- name: check if package is valid using checksum
+  fail:
+    msg: "Checksum does not match, please validate your package."
+  when: st.stat.checksum != "{{ psm_sha1_checksum }}"
+
 - name: check psm_out_of_domain is boolean
   fail:
     msg: "psm_out_of_domain should be true/false, current type is {{ psm_out_of_domain | type_debug }}"
