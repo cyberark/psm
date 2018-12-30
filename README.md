@@ -1,6 +1,6 @@
 # PSM
 
-This Playbook will install the [CyberArk PSM](https://www.cyberark.com/products/privileged-account-security-solution/core-privileged-account-security/) software on a Windows 2016 server / VM / instance.
+This playbook will install the [CyberArk PSM](https://www.cyberark.com/products/privileged-account-security-solution/core-privileged-account-security/) software on a Windows 2016 server / VM / instance.
 
 
 ## Requirements
@@ -28,22 +28,21 @@ psm_uninstall                    | no           | false                         
 
 Variable                         | Required     | Default                                              | Comments         
 :--------------------------------|:-------------|:-----------------------------------------------------|:---------
-psm_zip_file_path                | yes          | None                                                 | Zip File path of CyberArk packages
-pvwa_url                         | yes          | None                                                 | URL of registered PVWA                 
-accept_eula                      | yes          | **No**                                               | Accepting EULA condition       
-psm_disable_nla                  | yes          | **No**                                               | This will disable NLA on the server
 vault_ip                         | yes          | None                                                 | Vault IP to perform registration   
 vault_password                   | yes          | None                                                 | Vault password to perform registration
+pvwa_url                         | yes          | None                                                 | URL of registered PVWA                 
+accept_eula                      | yes          | **No**                                               | Accepting EULA condition       
+psm_zip_file_path                | yes          | None                                                 | Zip File path of CyberArk packages
+psm_disable_nla                  | yes          | **No**                                               | This will disable NLA on the server
+vault_username                   | no           | **administrator**                                    | Vault username to perform registration
+vault_port                       | no           | **1858**                                             | Vault port
+dr_vault_ip                      | no           | None                                                 | Vault DR IP address to perform registration
+psm_base_bin_drive               | no           | **C:**                                               | Base path to extract CyberArk packages
 psm_extract_folder               | no           | **{{psm_base_bin_drive}}\\Cyberark\\packages**       | Path to extract the CyberArk packages
 psm_artifact_name                | no           | **psm.zip**                                          | Zip file name of PSM package
 psm_component_folder             | no           | **Central Policy Manager**                           | The name of PSM unzip folder
 psm_installation_drive           | no           | **C:**                                               | Base drive to install PSM
-dr_vault_ip                      | no           | None                                                 | Vault DR IP address to perform registration
-vault_port                       | no           | **1858**                                             | Vault port
-vault_username                   | no           | **administrator**                                    | Vault username to perform registration
 psm_out_of_domain                | no           | false                                                | Flag to determine if server is out of domain
-psm_base_bin_drive               | no           | **C:**                                               | Base path to extract CyberArk packages
-
 
 ## Dependencies
 None
