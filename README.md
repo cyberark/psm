@@ -10,6 +10,7 @@ This playbook will install the [CyberArk PSM](https://www.cyberark.com/products/
 - Administrator credentials for access to the remote host (either Local or Domain)
 - Network connectivity to the CyberArk vault and the repository server
 - PSM package version 10.6 and above, including the location of the CD images
+- pywinrm is installed on the workstation running the playbook
 
 ### Flow Variables
 
@@ -40,7 +41,7 @@ dr_vault_ip                      | no           | None                          
 psm_base_bin_drive               | no           | **C:**                                               | Base path to extract CyberArk packages
 psm_extract_folder               | no           | **{{psm_base_bin_drive}}\\Cyberark\\packages**       | Path to extract the CyberArk packages
 psm_artifact_name                | no           | **psm.zip**                                          | Zip file name of PSM package
-psm_component_folder             | no           | **Central Policy Manager**                           | The name of PSM unzip folder
+psm_component_folder             | no           | **Privileged Session Manager**                       | The name of PSM unzip folder
 psm_installation_drive           | no           | **C:**                                               | Base drive to install PSM
 psm_out_of_domain                | no           | false                                                | Flag to determine if server is out of domain
 
