@@ -1,0 +1,44 @@
+---
+driver:
+  name: ec2
+
+platforms:
+  - name: windows-2016
+    driver_plugin: ec2
+    driver_config:
+      tags:
+        created-by: test-kitchen
+        kitchen-type: windows
+      user_data: tests/scripts/user_data_windows_2016.ps1
+    transport:
+      name: winrm
+      connection_timeout: 10
+      connection_retries: 5
+      username: Administrator
+      password: Kitchen
+    verifier:
+      name: pester
+      test_folder: tests
+      
+  - name: rhel
+    driver_plugin: ec2
+    driver_config:
+      user_data: tests/scripts/user_data_rhel_8.sh
+      iam_profile_name: JenkinsRole
+    transport:
+      max_ssh_sessions: 1
+    provisioner:
+      name: ansible_playbook
+      roles_path: ./
+      role_name: ansible_test_kitchen_windows_role
+      ansible_connection: winrm
+      ansible_inventory: tests/inventory/hosts
+      require_windows_support: true
+      require_chef_for_busser: false
+      ansible_host_key_checking: false
+      ansible_verbose: true
+      ansible_verbosity: 2
+      playbook: tests/default.yml
+
+suites:
+  - name: default

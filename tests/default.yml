@@ -1,0 +1,24 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: download package from s3
+      aws_s3:
+        bucket: cloud-initiatives-pipeline-bucket
+        object: "Packages/v10.6/Privileged Session Manager-Rls-v10.6.zip"
+        dest: "/tmp/psm.zip"
+        mode: get
+
+- hosts: tag_kitchen_type_windows
+  gather_facts: no
+  tasks:      
+    - include_role:
+        name: psm
+      vars:
+        - psm_extract: true
+        - psm_prerequisites: true
+        - psm_install: true
+        - psm_postinstall: true
+        - psm_hardening: true
+        - psm_registration: false
+        - psm_zip_file_path: "/tmp/psm.zip"
+        
