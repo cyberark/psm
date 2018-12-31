@@ -1,36 +1,47 @@
 ---
 driver:
   name: ec2
+  require_chef_omnibus: false
 
 platforms:
   - name: windows-2016
     driver_plugin: ec2
     driver_config:
+      instance_type: m4.large
       tags:
         created-by: test-kitchen
         kitchen-type: windows
       user_data: tests/scripts/user_data_windows_2016.ps1
     transport:
       name: winrm
-      connection_timeout: 10
+      port: 5986
+      winrm_transport: ssl
+      ssl: true
+      connect_timeout: 60
       connection_retries: 5
       username: Administrator
-      password: Kitchen
+      password: Kitchen123$
     verifier:
       name: pester
       test_folder: tests
-      
+
   - name: rhel
     driver_plugin: ec2
     driver_config:
       user_data: tests/scripts/user_data_rhel_8.sh
       iam_profile_name: JenkinsRole
+      block_device_mappings:
+        - device_name: /dev/sda1
+          ebs:
+            volume_size: 20
+            delete_on_termination: true
     transport:
       max_ssh_sessions: 1
     provisioner:
       name: ansible_playbook
       roles_path: ./
-      role_name: ansible_test_kitchen_windows_role
+      role_name: psm
+      group_vars_path: tests/group_vars
       ansible_connection: winrm
       ansible_inventory: tests/inventory/hosts
       require_windows_support: true

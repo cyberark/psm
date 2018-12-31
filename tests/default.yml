@@ -10,7 +10,7 @@
 
 - hosts: tag_kitchen_type_windows
   gather_facts: no
-  tasks:      
+  tasks:
     - include_role:
         name: psm
       vars:
@@ -21,4 +21,6 @@
         - psm_hardening: true
         - psm_registration: false
         - psm_zip_file_path: "/tmp/psm.zip"
-        
+        - accept_eula: "yes"
+        - psm_disable_nla: "yes"
+        - psm_out_of_domain: true
