@@ -21,15 +21,14 @@ platforms:
       connect_timeout: 60
       connection_retries: 5
       username: Administrator
-      password: Kitchen123$
     verifier:
       name: pester
       test_folder: tests
 
-  - name: rhel
+  - name: ubuntu
     driver_plugin: ec2
     driver_config:
-      user_data: tests/scripts/user_data_rhel_8.sh
+      instance_type: t2.large
       iam_profile_name: JenkinsRole
       block_device_mappings:
         - device_name: /dev/sda1
@@ -51,6 +50,9 @@ platforms:
       ansible_verbose: true
       ansible_verbosity: 2
       playbook: tests/default.yml
+      additional_ssh_private_keys:
+        - .kitchen/default-windows-2016.pem
+      require_pip: true
 
 suites:
   - name: default

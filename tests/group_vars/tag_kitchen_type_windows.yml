@@ -9,9 +9,8 @@ ansible_port: 5986
 
 ansible_become: yes
 ansible_become_method: runas
-ansible_become_password: "Kitchen123$"
+ansible_become_password: "{{ ansible_password }}"
 ansible_user: "Administrator"
 ansible_become_user: "{{ ansible_user }}"
-ansible_password: "Kitchen123$"
 ansible_become_pass: "{{ ansible_password }}"
 ansible_become_flags: logon_type=new_credentials logon_flags=netcredentials_only
