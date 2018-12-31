@@ -53,9 +53,9 @@
         msg: 'ERROR: Installation failed. For more info check {{ playbook_dir }}/logs/psm/{{ inventory_hostname }}_install.log'
 
 - name: check psm service status
-  win_service: 
+  win_service:
     name: "{{ psm_service_name }}"
   register: psm_service_info
-  
+
 - set_fact:
     psm_exists: "{{ psm_service_info.exists }}"

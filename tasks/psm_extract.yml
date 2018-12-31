@@ -1,7 +1,7 @@
 ---
 # tasks file for psm_extract
 
-- name: Create folder 
+- name: Create folder
   win_file:
     path: "{{ psm_extract_folder }}"
     state: directory
@@ -10,12 +10,12 @@
   win_copy:
     src: "{{ psm_zip_file_path }}"
     dest: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
-    
+
 - name: Unzip the psm package
   win_unzip:
     src: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
     dest: "{{ psm_extract_folder }}"
-    
+
 - name: Copy registration tool
   win_copy:
     src: "{{ psm_extract_folder }}\\{{ psm_component_folder }}\\RegistrationTool\\"
