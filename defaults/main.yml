@@ -27,7 +27,7 @@ psm_installation_path: "{{ psm_installation_drive }}\\Program Files (x86)\\Cyber
 psm_registrationtool_folder: "{{ psm_base_bin_drive }}\\Cyberark\\Components Registration"
 psm_out_of_domain: false
 
-eula: "Decline"
+accept_eula: "No"
 accept_sql_eula: "No"
 psm_disable_nla: "No"
 
