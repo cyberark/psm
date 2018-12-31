@@ -1,4 +1,5 @@
 ---
+
 driver:
   name: ec2
   require_chef_omnibus: false
