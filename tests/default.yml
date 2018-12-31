@@ -4,7 +4,7 @@
   gather_facts: no
   tasks:
 
-    - name: Install dependencies
+    - name: Install pip dependencies
       shell: |
         pip install boto boto3 botocore pywinrm[credssp] requests-credssp cryptography --user
 
@@ -28,7 +28,8 @@
           "tag:kitchen-type": windows
       register: ec2_result
 
-    - ec2_win_password:
+    - name: Get windows password using keypair
+      ec2_win_password:
         instance_id: "{{ ec2_result.instances[0].instance_id }}"
         region: "{{ my_region.stdout }}"
         key_file: ssh_private_keys/default-windows-2016.pem
@@ -36,15 +37,16 @@
         wait_timeout: 600
       register: ec2_win_password
 
-    - set_fact:
+    - name: Set fact for windows password to use in another hosts
+      set_fact:
         win_password: "{{ ec2_win_password.win_password }}"
 
 - hosts: tag_kitchen_type_windows
   gather_facts: no
-  vars:
-    ansible_password: "{{ hostvars['localhost']['win_password'] }}"
   tasks:
-    - include_role:
+
+    - name: PSM Deployment
+      include_role:
         name: psm
       vars:
         - psm_extract: true
