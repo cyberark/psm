@@ -5,7 +5,7 @@ This Ansible Role will deploy and install CyberArk Privileged Session Manager in
 ------------
  
 - Windows 2016 installed on the remote host
-- WinRM open on port 5986 (not 5985) on the remote host 
+- WinRM open on port 5986 (**not 5985**) on the remote host 
 - Pywinrm is installed on the workstation running the playbook
 - The workstation running the playbook must have network connectivity to the remote host
 - The remote host must have Network connectivity to the CyberArk vault and the repository server
@@ -18,11 +18,11 @@ Variable                         | Required     | Default                       
 :--------------------------------|:-------------|:------------------------------------------|:---------
 psm_prerequisites                | no           | false                                     | Install PSM pre requisites
 psm_install                      | no           | false                                     | Install PSM
-psm_postinstall                  | no           | false                                     | PSM port install role
-psm_hardening                    | no           | false                                     | PSM hardening role
-psm_registration                 | no           | false                                     | PSM Register with Vault
+psm_postinstall                  | no           | false                                     | PSM post install role
+psm_hardening                    | no           | false                                     | Apply PSM hardening
+psm_registration                 | no           | false                                     | Connect PSM to the Vault
 psm_upgrade                      | no           | false                                     | N/A
-psm_clean                        | no           | false                                     | Clean server after deployment
+psm_clean                        | no           | false                                     | N/A
 psm_uninstall                    | no           | false                                     | N/A
 
 ### Deployment Variables
@@ -37,10 +37,8 @@ psm_disable_nla                  | yes          | **No**                        
 vault_username                   | no           | **administrator**                                    | Vault username to perform registration
 vault_port                       | no           | **1858**                                             | Vault port
 dr_vault_ip                      | no           | None                                                 | Vault DR IP address to perform registration
-psm_base_bin_drive               | no           | **C:**                                               | Base path to extract CyberArk packages
 psm_extract_folder               | no           | **{{psm_base_bin_drive}}\\Cyberark\\packages**       | Path to extract the CyberArk packages
-psm_artifact_name                | no           | **psm.zip**                                          | Zip file name of PSM package
-psm_component_folder             | no           | **Privileged Session Manager**                       | The name of PSM unzip folder
+psm_component_folder             | no           | **Privileged Session Manager**                       | The name of PSM Installation                                                                                                            folder
 psm_installation_drive           | no           | **C:**                                               | Base drive to install PSM
 psm_out_of_domain                | no           | false                                                | Flag to determine if server is out of domain
 
