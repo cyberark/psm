@@ -1,14 +1,17 @@
 # PSM Ansible Role
-This playbook will install the [CyberArk PSM](https://www.cyberark.com/products/privileged-account-security-solution/core-privileged-account-security/) software on a Windows 2016 server / VM / instance.
+This Ansible Role will deploy and install CyberArk Privileged Session Manager including the pre-requisites, application, hardening and connect to an existing Vault environment.
 
 ## Requirements
 ------------
-- The host running the playbook must have network connectivity to the remote hosts in the inventory
-- Windows 2016 must be installed on the remote host
-- Administrator credentials for access to the remote host (either Local or Domain)
-- Network connectivity to the CyberArk vault and the repository server
-- PSM package version 10.6 and above, including the location of the CD images
-- pywinrm is installed on the workstation running the playbook
+ 
+- Windows 2016 installed on the remote host
+- WinRM open on port 5986 (not 5985) on the remote host 
+- Pywinrm is installed on the workstation running the playbook
+- The workstation running the playbook must have network connectivity to the remote host
+- The remote host must have Network connectivity to the CyberArk vault and the repository server
+- Administrator access to the remote host 
+- PSM CD image
+
 
 ### Flow Variables
 Variable                         | Required     | Default                                   | Comments
