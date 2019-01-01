@@ -54,13 +54,13 @@
         } else {
             exit 0
         }
-        
+
     - name: clear win logon details
       win_shell: |
         $RegPath = 'HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon'
-        Remove-ItemProperty -Path $RegPath -Name 'AutoAdminLogon' 
-        Remove-ItemProperty -Path $RegPath -Name 'DefaultUsername' 
-        Remove-ItemProperty -Path $RegPath -Name 'DefaultPassword' 
+        Remove-ItemProperty -Path $RegPath -Name 'AutoAdminLogon'
+        Remove-ItemProperty -Path $RegPath -Name 'DefaultUsername'
+        Remove-ItemProperty -Path $RegPath -Name 'DefaultPassword'
 
   rescue:
 
