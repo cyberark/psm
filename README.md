@@ -33,7 +33,7 @@ vault_password                   | yes          | None                          
 pvwa_url                         | yes          | None                                                 | URL of registered PVWA
 accept_eula                      | yes          | **No**                                               | Accepting EULA condition (Yes/No)
 psm_zip_file_path                | yes          | None                                                 | Zip File path of CyberArk packages
-Prefered connection method using RDP file                 | yes          | **No**                                               | This will disable NLA on the server
+Connect_with_RDP                 | yes          | **No**                                               | This will disable NLA on the server
 vault_username                   | no           | **administrator**                                    | Vault username to perform registration
 vault_port                       | no           | **1858**                                             | Vault port
 dr_vault_ip                      | no           | None                                                 | Vault DR IP address to perform registration
