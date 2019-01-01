@@ -37,8 +37,6 @@ psm_disable_nla                  | yes          | **No**                        
 vault_username                   | no           | **administrator**                                    | Vault username to perform registration
 vault_port                       | no           | **1858**                                             | Vault port
 dr_vault_ip                      | no           | None                                                 | Vault DR IP address to perform registration
-psm_extract_folder               | no           | **{{psm_base_bin_drive}}\\Cyberark\\packages**       | Path to extract the CyberArk packages
-psm_component_folder             | no           | **Privileged Session Manager**                       | The name of PSM Installation                                                                                                            folder
 psm_installation_drive           | no           | **C:**                                               | Base drive to install PSM
 psm_out_of_domain                | no           | false                                                | Flag to determine if server is out of domain
 
