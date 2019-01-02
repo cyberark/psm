@@ -11,10 +11,8 @@ pipeline {
       }
     }
     stage('Set Environment Variables') {
-      steps {
-        script {
-          AWS_REGION = sh('curl http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region')
-        }
+      environment {
+        AWS_REGION = sh(script: 'curl http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region', returnStdout: true).trim()
       }
     }
     stage('Check region') {
