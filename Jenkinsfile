@@ -37,6 +37,7 @@ pipeline {
             sed -i -- "s/tag_kitchen_type_windows/tag_commit_id_${shortCommit}/g" tests/default.yml
             sed -i -- "s/kitchen-type=windows/commit-id=${shortCommit}/g" tests/inventory/ec2.ini
             sed -i -- "s/tag_kitchen_type_windows/tag_commit_id_${shortCommit}/g" tests/inventory/generate_inventory.sh
+            mv tests/group_vars/tag_kitchen_type_windows.yml tests/group_vars/tag_commit_id_${shortCommit}.yml
         '''
       }
     }
