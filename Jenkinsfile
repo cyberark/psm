@@ -68,5 +68,12 @@ pipeline {
         }
       }
     }
+    stage('Destroy testing environment') {
+      steps {
+        script {
+          sh(script: "kitchen destroy", returnStdout: true)
+        }
+      }
+    }
   }
 }
