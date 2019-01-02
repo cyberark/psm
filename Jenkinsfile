@@ -46,7 +46,7 @@ pipeline {
     stage('Install kitchen environment') {
       steps {
         script {
-          sh(script: 'sudo yum install -y https://packages.chef.io/files/stable/chefdk/3.6.57/el/7/chefdk-3.6.57-1.el7.x86_64.rpm')
+          sh(script: 'rpm -qa | grep -qw chefdk-3.6.57-1.el7.x86_64 || sudo yum install -y https://packages.chef.io/files/stable/chefdk/3.6.57/el/7/chefdk-3.6.57-1.el7.x86_64.rpm')
           sh(script: 'chef gem install "winrm"')
           sh(script: 'chef gem install "winrm-fs"')
           sh(script: 'chef gem install "kitchen-ansible"')
