@@ -57,37 +57,39 @@ pipeline {
     stage('Provision testing environment') {
       steps {
         script {
-          sh(script: "kitchen create -l debug", returnStdout: true)
+          sh(script: "kitchen create", returnStdout: true)
         }
       }
     }
     stage('Update hosts file') {
       steps {
         script {
+          sh(script: "cd tests", returnStdout: true)
           sh(script: "chmod +x ./inventory/ec2.py", returnStdout: true)
-          sh(script: "chmod +x ./inventory/generate_inventory.sh", returnStdout: true)
-          sh(script: "cd tests && ./inventory/generate_inventory.sh && cd ..", returnStdout: true)
+          sh(script: "chmod +x ./inventory/generate_inventory", returnStdout: true)
+          sh(script: "./inventory/generate_inventory.sh", returnStdout: true)
+          sh(script: "cd ..", returnStdout: true)
         }
       }
     }
     stage('Run playbook on windows machine') {
       steps {
         script {
-          sh(script: "kitchen converge -l debug", returnStdout: true)
+          sh(script: "kitchen converge", returnStdout: true)
         }
       }
     }
     stage('Run pester tests') {
       steps {
         script {
-          sh(script: "kitchen verify -l debug", returnStdout: true)
+          sh(script: "kitchen verify", returnStdout: true)
         }
       }
     }
     stage('Destroy testing environment') {
       steps {
         script {
-          sh(script: "kitchen destroy -l debug", returnStdout: true)
+          sh(script: "kitchen destroy", returnStdout: true)
         }
       }
     }
