@@ -8,7 +8,7 @@ pipeline {
     stage('Install required libraries for testing environment') {
       steps {
         script {
-          sh(script: 'yum install -y jq')
+          sh(script: 'sudo yum install -y jq')
         }
       }
     }
