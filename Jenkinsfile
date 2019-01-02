@@ -60,7 +60,7 @@ pipeline {
           sh(script: 'export AWS_DEFAULT_REGION=$(curl http://169.254.169.254/latest/dynamic/instance-identity/document | jq .region | sed \'s/\\"//g\')')
           sh(script: "chmod +x tests/inventory/ec2.py", returnStdout: true)
           sh(script: "chmod +x tests/inventory/generate_inventory.sh", returnStdout: true)
-          sh(script: 'sed -i -- "s/region_placeholder/${AWS_DEFAULT_REGION}/g" inventory/ec2.ini', returnStdout: true)
+          sh(script: 'sed -i -- "s/region_placeholder/${AWS_DEFAULT_REGION}/g" tests/inventory/ec2.ini', returnStdout: true)
           sh(script: 'ansible-inventory -i tests/inventory/ec2.py --list tag_kitchen_type_windows --export -y > ./tests/inventory/hosts', returnStdout: true)
           sh(script: "cd tests && ./inventory/generate_inventory.sh && cd ..", returnStdout: true)
         }
