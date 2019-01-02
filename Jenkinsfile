@@ -57,7 +57,7 @@ pipeline {
     stage('Provision testing environment') {
       steps {
         script {
-          sh(script: "kitchen create", returnStdout: true)
+          sh(script: "kitchen create -l debug", returnStdout: true)
         }
       }
     }
@@ -73,21 +73,21 @@ pipeline {
     stage('Run playbook on windows machine') {
       steps {
         script {
-          sh(script: "kitchen converge", returnStdout: true)
+          sh(script: "kitchen converge -l debug", returnStdout: true)
         }
       }
     }
     stage('Run pester tests') {
       steps {
         script {
-          sh(script: "kitchen verify", returnStdout: true)
+          sh(script: "kitchen verify -l debug", returnStdout: true)
         }
       }
     }
     stage('Destroy testing environment') {
       steps {
         script {
-          sh(script: "kitchen destroy", returnStdout: true)
+          sh(script: "kitchen destroy -l debug", returnStdout: true)
         }
       }
     }
