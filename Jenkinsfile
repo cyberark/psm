@@ -17,6 +17,13 @@ pipeline {
         }
       }
     }
+    stage('Check region') {
+      steps {
+        sh '''
+          echo ${AWS_REGION}
+        '''
+      }
+    }
     stage('Install virtual environment') {
       steps {
         sh '''
