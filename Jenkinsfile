@@ -13,13 +13,6 @@ pipeline {
         sh 'sudo yum install -y jq'
       }
     }
-    stage('Set Environment Variables') {
-      steps {
-        sh '''
-          echo ${AWS_REGION}
-        '''
-      }
-    }
     stage('Install virtual environment') {
       steps {
         sh '''
