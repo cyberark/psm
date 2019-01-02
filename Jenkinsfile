@@ -29,6 +29,13 @@ pipeline {
         }
       }
     }
+    stage('Define AWS Region') {
+      steps {
+        script {
+          sh(script: 'export AWS_DEFAULT_REGION=$(curl http://169.254.169.254/latest/dynamic/instance-identity/document | jq .region | sed \'s/\\"//g\')')
+        }
+      }
+    }
     stage('Install kitchen environment') {
       steps {
         script {
