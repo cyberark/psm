@@ -13,7 +13,7 @@ pipeline {
     stage('Set Environment Variables') {
       steps {
         script {
-          AWS_DEFAULT_REGION = sh('curl http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region')
+          AWS_REGION = sh('curl http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region')
         }
       }
     }
@@ -76,5 +76,5 @@ pipeline {
     always {
       sh 'kitchen destroy'
     }
-  } 
+  }
 }
