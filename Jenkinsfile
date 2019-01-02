@@ -57,9 +57,7 @@ pipeline {
     stage('Update hosts file') {
       steps {
         script {
-          sh(script: 'export AWS_DEFAULT_REGION=$(curl http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)', returnStdout: true)
           sh(script: "chmod +x tests/inventory/ec2.py", returnStdout: true)
-          sh(script: 'sed -i -- "s/region_placeholder/$(curl http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)/g" tests/inventory/ec2.ini', returnStdout: true)
           sh(script: 'ansible-inventory -i tests/inventory/ec2.py --list tag_kitchen_type_windows --export -y > ./tests/inventory/hosts', returnStdout: true)
         }
       }
