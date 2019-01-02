@@ -36,7 +36,12 @@ pipeline {
     }
     stage('replace tags with commit id') {
       steps {
-        sed -i -- 's/type_windows/type_${shortCommit}/g' file.yml
+        sh '''
+            sed -i -- "s/\"tag:kitchen-type\": windows/\"tag:kitchen-type\": ${shortCommit}/g" default.yml
+            sed -i -- "s/tag_kitchen_type_windows/tag_commit_id_${shortCommit}/g" tests/default.yml
+            sed -i -- "s/kitchen-type=windows/commit-id=${shortCommit}/g" tests/inventory/ec2.ini
+            sed -i -- "s/tag_kitchen_type_windows/tag_commit_id_${shortCommit}/g" tests/inventory/generate_inventory.sh
+        '''
       }
     }
     stage('Install kitchen environment') {
@@ -59,7 +64,7 @@ pipeline {
       steps {
         sh '''
             chmod +x tests/inventory/ec2.py
-            ansible-inventory -i tests/inventory/ec2.py --list tag_kitchen_type_windows --export -y > ./tests/inventory/hosts
+            ansible-inventory -i tests/inventory/ec2.py --list tag_commit_id_${shortCommit} --export -y > ./tests/inventory/hosts
         '''
       }
     }
