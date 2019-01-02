@@ -65,7 +65,7 @@ pipeline {
       steps {
         script {
           sh(script: "chmod +x tests/inventory/ec2.py", returnStdout: true)
-          sh(script: "chmod +x tests/inventory/generate_inventory", returnStdout: true)
+          sh(script: "chmod +x tests/inventory/generate_inventory.sh", returnStdout: true)
           sh(script: "cd tests && ./inventory/generate_inventory.sh && cd ..", returnStdout: true)
         }
       }
