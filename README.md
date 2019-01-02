@@ -9,6 +9,8 @@ This Ansible Role will deploy and install CyberArk Privileged Session Manager in
 - Pywinrm is installed on the workstation running the playbook
 - The workstation running the playbook must have network connectivity to the remote host
 - The remote host must have Network connectivity to the CyberArk vault and the repository server
+  - 443 port outbound
+  - 1858 port outbound 
 - Administrator access to the remote host 
 - PSM CD image
 
@@ -33,7 +35,7 @@ vault_password                   | yes          | None                          
 pvwa_url                         | yes          | None                                                 | URL of registered PVWA
 accept_eula                      | yes          | **No**                                               | Accepting EULA condition (Yes/No)
 psm_zip_file_path                | yes          | None                                                 | Zip File path of CyberArk packages
-Connect_with_RDP                 | yes          | **No**                                               | This will disable NLA on the server
+connect_with_rdp                 | yes          | **No**                                               | This will disable NLA on the server
 vault_username                   | no           | **administrator**                                    | Vault username to perform registration
 vault_port                       | no           | **1858**                                             | Vault port
 dr_vault_ip                      | no           | None                                                 | Vault DR IP address to perform registration
@@ -98,10 +100,6 @@ For an example of how to incorporate this role into a complete playbook, please 
 **[pas-orchestrator](https://github.com/cyberark/pas-orchestrator)** example.
 
 ## License
-Copyright 1999-2018 CyberArk Software Ltd.
-
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this software except in compliance with the License. You may obtain a copy of the License at
-
+Licensed under the Apache License, Version 2.0 
 http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
