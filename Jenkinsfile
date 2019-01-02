@@ -5,16 +5,16 @@ pipeline {
     }
   }
   stages {
+    stage('Install required libraries for testing environment') {
+      steps {
+        sh 'sudo yum install -y jq'
+      }
+    }
     stage('Set Environment Variables') {
       steps {
         script {
           AWS_DEFAULT_REGION = sh('$(curl http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)')
         }
-      }
-    }
-    stage('Install required libraries for testing environment') {
-      steps {
-        sh 'sudo yum install -y jq'
       }
     }
     stage('Install virtual environment') {
