@@ -4,6 +4,9 @@ pipeline {
       label 'ansible'
     }
   }
+  environment {
+    AWS_DEFAULT_REGION = sh(returnStdout: true, script: '$(curl http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)')
+  }
   stages {
     stage('Install required libraries for testing environment') {
       steps {
@@ -49,7 +52,6 @@ pipeline {
     stage('Update hosts file') {
       steps {
         sh '''
-            export AWS_DEFAULT_REGION=$(curl http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
             chmod +x tests/inventory/ec2.py
             ansible-inventory -i tests/inventory/ec2.py --list tag_kitchen_type_windows --export -y > ./tests/inventory/hosts
         '''
