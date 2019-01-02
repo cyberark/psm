@@ -5,6 +5,13 @@ pipeline {
     }
   }
   stages {
+    stage('Install required libraries for testing environment') {
+      steps {
+        script {
+          sh(script: 'yum install -y jq')
+        }
+      }
+    }
     stage('Install virtual environment') {
       steps {
         script {
