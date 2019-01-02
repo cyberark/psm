@@ -6,6 +6,7 @@ pipeline {
   }
   environment {
     AWS_REGION = sh(script: 'curl http://169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region', returnStdout: true).trim()
+    shortCommit = sh(script: "git log -n 1 --pretty=format:'%h'", returnStdout: true).trim()
   }
   stages {
     stage('Install required libraries for testing environment') {
@@ -31,6 +32,11 @@ pipeline {
     stage('yamllint validation') {
       steps {
         sh '.testenv/bin/yamllint .'
+      }
+    }
+    stage('replace tags with commit id') {
+      steps {
+        sed -i -- 's/type_windows/type_${shortCommit}/g' file.yml
       }
     }
     stage('Install kitchen environment') {
