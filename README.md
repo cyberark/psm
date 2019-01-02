@@ -100,6 +100,5 @@ For an example of how to incorporate this role into a complete playbook, please 
 **[pas-orchestrator](https://github.com/cyberark/pas-orchestrator)** example.
 
 ## License
-Licensed under the Apache License, Version 2.0 
-http://www.apache.org/licenses/LICENSE-2.0
+[Apache 2](LICENSE)
 
