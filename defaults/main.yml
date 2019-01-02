@@ -29,7 +29,7 @@ psm_out_of_domain: false
 
 accept_eula: "No"
 accept_sql_eula: "No"
-psm_disable_nla: "No"
+connect_with_rdp: "No"
 
 psm_prerequisites_log: "{{ psm_installationautomation_folder }}\\psm_pre_req_result.txt"
 psm_install_log: "{{ psm_installationautomation_folder }}\\psm_installation_result.txt"

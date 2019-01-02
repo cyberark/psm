@@ -5,20 +5,26 @@
     msg: "You must accept EULA to start the playbook"
   when: (accept_eula|type_debug != 'bool' and accept_eula|lower != "yes") or (accept_eula|type_debug == 'bool' and not accept_eula)
 
-- name: check if psm_disable_nla is defined
+- name: check if connect_with_rdp is defined
   fail:
-    msg: "psm_disable_nla must be accepted in order to install PSM"
-  when: psm_disable_nla|lower != 'yes'
+    msg: "connect_with_rdp must be accepted in order to install PSM"
+  when: connect_with_rdp|lower != 'yes'
 
 - name: check if psm_zip_file_path undefined
   fail:
     msg: "psm_zip_file_path is undefined, failing..."
   when: psm_zip_file_path is not defined
 
+- name: check if psm_zip_file_path exists
+  stat:
+    path="{{ psm_zip_file_path }}"
+  register: st
+  delegate_to: localhost
+
 - name: check if package is valid using checksum
   fail:
     msg: "Checksum does not match, please validate your package."
-  when: st.stat.checksum != "{{ psm_sha1_checksum }}"
+  when: st.stat.checksum !=  psm_sha1_checksum
 
 - name: check psm_out_of_domain is boolean
   fail:

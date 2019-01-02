@@ -30,7 +30,7 @@ vault_password                   | yes          | None                          
 pvwa_url                         | yes          | None                                                 | URL of registered PVWA
 accept_eula                      | yes          | **No**                                               | Accepting EULA condition (Yes/No)
 psm_zip_file_path                | yes          | None                                                 | Zip File path of CyberArk packages
-psm_disable_nla                  | yes          | **No**                                               | This will disable NLA on the server
+connect_with_rdp                 | yes          | **No**                                               | This will disable NLA on the server
 vault_username                   | no           | **administrator**                                    | Vault username to perform registration
 vault_port                       | no           | **1858**                                             | Vault port
 dr_vault_ip                      | no           | None                                                 | Vault DR IP address to perform registration
@@ -94,7 +94,7 @@ to call the PSM role with several parameters:
     - ps_clean: true
 ```
 
-## Running the  playbook:
+## Running the playbook:
 For an example of how to incorporate this role into a complete playbook, please see the
 **[pas-orchestrator](https://github.com/cyberark/pas-orchestrator)** example.
 
