@@ -1,0 +1,48 @@
+---
+# tasks file for psm_validateparameters
+- name: check EULA is accepted
+  fail:
+    msg: "You must accept EULA to start the playbook"
+  when: (accept_eula|type_debug != 'bool' and accept_eula|lower != "yes") or (accept_eula|type_debug == 'bool' and not accept_eula)
+
+- name: check if connect_with_rdp is defined
+  fail:
+    msg: "connect_with_rdp must be accepted in order to install PSM"
+  when: connect_with_rdp|lower != 'yes'
+
+- name: check if psm_zip_file_path undefined
+  fail:
+    msg: "psm_zip_file_path is undefined, failing..."
+  when: psm_zip_file_path is not defined
+
+- name: check if psm_zip_file_path exists
+  stat:
+    path="{{ psm_zip_file_path }}"
+  register: st
+  delegate_to: localhost
+
+- name: check if package is valid using checksum
+  fail:
+    msg: "Checksum does not match, please validate your package."
+  when: st.stat.checksum !=  psm_sha1_checksum
+
+- name: check psm_out_of_domain is boolean
+  fail:
+    msg: "psm_out_of_domain should be true/false, current type is {{ psm_out_of_domain | type_debug }}"
+  when: psm_out_of_domain | type_debug != 'bool'
+
+- name: check psm service status
+  win_service:
+    name: "{{ psm_service_name }}"
+  register: psm_service_info
+
+- set_fact:
+    psm_exists: true
+  when: psm_service_info.exists
+
+- name: check if psm is registered
+  set_fact:
+    psm_registered: true
+  when:
+    - psm_service_info.exists
+    - psm_service_info.state == "running"

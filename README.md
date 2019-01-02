@@ -1,38 +1,104 @@
-Role Name
-=========
+# PSM Ansible Role
+This Ansible Role will deploy and install CyberArk Privileged Session Manager including the pre-requisites, application, hardening and connect to an existing Vault environment.
 
-A brief description of the role goes here.
-
-Requirements
+## Requirements
 ------------
+ 
+- Windows 2016 installed on the remote host
+- WinRM open on port 5986 (**not 5985**) on the remote host 
+- Pywinrm is installed on the workstation running the playbook
+- The workstation running the playbook must have network connectivity to the remote host
+- The remote host must have Network connectivity to the CyberArk vault and the repository server
+  - 443 port outbound
+  - 1858 port outbound 
+- Administrator access to the remote host 
+- PSM CD image
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
-Role Variables
---------------
+### Flow Variables
+Variable                         | Required     | Default                                   | Comments
+:--------------------------------|:-------------|:------------------------------------------|:---------
+psm_prerequisites                | no           | false                                     | Install PSM pre requisites
+psm_install                      | no           | false                                     | Install PSM
+psm_postinstall                  | no           | false                                     | PSM post install role
+psm_hardening                    | no           | false                                     | Apply PSM hardening
+psm_registration                 | no           | false                                     | Connect PSM to the Vault
+psm_upgrade                      | no           | false                                     | N/A
+psm_clean                        | no           | false                                     | N/A
+psm_uninstall                    | no           | false                                     | N/A
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+### Deployment Variables
+Variable                         | Required     | Default                                              | Comments
+:--------------------------------|:-------------|:-----------------------------------------------------|:---------
+vault_ip                         | yes          | None                                                 | Vault IP to perform registration
+vault_password                   | yes          | None                                                 | Vault password to perform registration
+pvwa_url                         | yes          | None                                                 | URL of registered PVWA
+accept_eula                      | yes          | **No**                                               | Accepting EULA condition (Yes/No)
+psm_zip_file_path                | yes          | None                                                 | Zip File path of CyberArk packages
+connect_with_rdp                 | yes          | **No**                                               | This will disable NLA on the server
+vault_username                   | no           | **administrator**                                    | Vault username to perform registration
+vault_port                       | no           | **1858**                                             | Vault port
+dr_vault_ip                      | no           | None                                                 | Vault DR IP address to perform registration
+psm_installation_drive           | no           | **C:**                                               | Base drive to install PSM
+psm_out_of_domain                | no           | false                                                | Flag to determine if server is out of domain
 
-Dependencies
-------------
+## Dependencies
+None
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## Usage
+The role consists of a number of different tasks which can be enabled or disabled for the particular
+run.
 
-Example Playbook
-----------------
+`psm_prerequisites`
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+This task will run the PSM pre-requisites steps.
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+`psm_install`
 
-License
--------
+This task will deploy the PSM to required folder and validate successful deployment.
 
-BSD
+`psm_postinstall`
 
-Author Information
-------------------
+This task will run the PSM post installation steps.
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+`psm_hardening`
+
+This task will run the PSM hardening process.
+
+`psm_registration`
+
+This task will perform registration with active Vault.
+
+`psm_validateparameters`
+
+This task will validate which PSM steps have already occurred on the server to prevent repetition.
+
+`psm_clean`
+
+This task will clean the configuration (inf) files from the installation, delete the
+PSM installation logs from the Temp folder and delete the cred files.
+
+
+## Example Playbook
+Below is an example of how you can incorporate this role into an Ansible playbook
+to call the PSM role with several parameters:
+
+```
+---
+- include_role:
+    name: psm
+  vars:
+    - psm_prerequisites: true
+    - psm_install: true
+    - psm_postinstall: true
+    - psm_hardening: true
+    - ps_clean: true
+```
+
+## Running the playbook:
+For an example of how to incorporate this role into a complete playbook, please see the
+**[pas-orchestrator](https://github.com/cyberark/pas-orchestrator)** example.
+
+## License
+[Apache 2](LICENSE)
+

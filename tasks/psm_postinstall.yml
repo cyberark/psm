@@ -1,0 +1,55 @@
+---
+# tasks file for psm postinstall
+
+- name: Post Installation Block
+  block:
+
+    - name: execute psm post installation
+      win_shell: |
+        Set-Location "{{ psm_installationautomation_folder }}"
+        $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\PostInstallation\PostInstallationConfig.xml" -displayJson
+        $Action | Out-File -FilePath "{{ psm_postinstall_log }}"
+        $Result = Get-Content "{{ psm_postinstall_log }}" | ConvertFrom-Json
+        if ($Result.isSucceeded -ne 0) {
+            exit 1
+        } else {
+            exit 0
+        }
+
+  rescue:
+
+    - name: Get log path for post installation
+      win_shell: |
+        $Result = Get-Content "{{ psm_postinstall_log }}"
+        Write-Output $Result
+      register: log_result
+
+    - fetch:
+        src: '{{ log_result.stdout | from_json | json_query("logPath") }}'
+        dest: '{{ playbook_dir }}/logs/psm/{{ inventory_hostname }}_postinstall.log'
+        flat: yes
+
+    - fail:
+        msg: 'ERROR: Post Installation failed. For more info check {{ playbook_dir }}/logs/psm/{{ inventory_hostname }}_postinstall.log'
+
+- name: validate users exists and password expiration
+  win_shell: |
+    $ErrorActionPreference = "Stop"
+
+    try {
+        $user = gwmi -class Win32_UserAccount | Where {$_.Name -eq 'PSMConnect'}
+        if ($user -eq $null)
+        {
+          exit  1
+        }
+        $user = gwmi -class Win32_UserAccount | Where {$_.Name -eq 'PSMAdminConnect'}
+        if ($user -eq $null)
+        {
+          exit  1
+        }
+
+        exit 0
+    } catch {
+        Write-Output "Error occured: $error"
+        exit 1
+    }
