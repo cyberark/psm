@@ -64,9 +64,9 @@ pipeline {
     stage('Update hosts file') {
       steps {
         script {
-          sh(script: "cd tests", returnStdout: true)
-          sh(script: "chmod +x ./inventory/ec2.py", returnStdout: true)
-          sh(script: "chmod +x ./inventory/generate_inventory", returnStdout: true)
+          sh(script: "cd ", returnStdout: true)
+          sh(script: "chmod +x inventory/ec2.py", returnStdout: true)
+          sh(script: "chmod +x inventory/generate_inventory", returnStdout: true)
           sh(script: "./inventory/generate_inventory.sh", returnStdout: true)
           sh(script: "cd ..", returnStdout: true)
         }
