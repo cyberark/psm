@@ -31,15 +31,15 @@ psm_uninstall                    | no           | false                         
 Variable                         | Required     | Default                                              | Comments
 :--------------------------------|:-------------|:-----------------------------------------------------|:---------
 vault_ip                         | yes          | None                                                 | Vault IP to perform registration
-vault_password                   | yes          | None                                                 | Vault password to perform registration
-pvwa_url                         | yes          | None                                                 | URL of registered PVWA
-accept_eula                      | yes          | **No**                                               | Accepting EULA condition (Yes/No)
-psm_zip_file_path                | yes          | None                                                 | Zip File path of CyberArk packages
-connect_with_rdp                 | yes          | **No**                                               | This will disable NLA on the server
-vault_username                   | no           | **administrator**                                    | Vault username to perform registration
 vault_port                       | no           | **1858**                                             | Vault port
+vault_username                   | no           | **administrator**                                    | Vault username to perform registration
+vault_password                   | yes          | None                                                 | Vault password to perform registration
 dr_vault_ip                      | no           | None                                                 | Vault DR IP address to perform registration
-psm_installation_drive           | no           | **C:**                                               | Base drive to install PSM
+accept_eula                      | yes          | **No**                                               | Accepting EULA condition (Yes/No)
+pvwa_url                         | yes          | None                                                 | URL of registered PVWA
+psm_zip_file_path                | yes          | None                                                 | CyberArk PSM installation Zip file package path
+connect_with_rdp                 | yes          | **No**                                               | Disable NLA on the server
+psm_installation_drive           | no           | **C:**                                               | Destination installation drive
 psm_out_of_domain                | no           | false                                                | Flag to determine if server is out of domain
 
 ## Dependencies
