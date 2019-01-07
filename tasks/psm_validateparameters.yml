@@ -5,11 +5,6 @@
     msg: "You must accept EULA to start the playbook"
   when: (accept_eula|type_debug != 'bool' and accept_eula|lower != "yes") or (accept_eula|type_debug == 'bool' and not accept_eula)
 
-- name: check if connect_with_rdp is defined
-  fail:
-    msg: "connect_with_rdp must be accepted in order to install PSM"
-  when: connect_with_rdp|lower != 'yes'
-
 - name: check if psm_zip_file_path undefined
   fail:
     msg: "psm_zip_file_path is undefined, failing..."
