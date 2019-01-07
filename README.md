@@ -1,25 +1,30 @@
 # PSM Ansible Role
-This playbook will install the [CyberArk PSM](https://www.cyberark.com/products/privileged-account-security-solution/core-privileged-account-security/) software on a Windows 2016 server / VM / instance.
+This Ansible Role will deploy and install CyberArk Privileged Session Manager including the pre-requisites, application, hardening and connect to an existing Vault environment.
 
 ## Requirements
 ------------
-- The host running the playbook must have network connectivity to the remote hosts in the inventory
-- Windows 2016 must be installed on the remote host
-- Administrator credentials for access to the remote host (either Local or Domain)
-- Network connectivity to the CyberArk vault and the repository server
-- PSM package version 10.6 and above, including the location of the CD images
-- pywinrm is installed on the workstation running the playbook
+ 
+- Windows 2016 installed on the remote host
+- WinRM open on port 5986 (**not 5985**) on the remote host 
+- Pywinrm is installed on the workstation running the playbook
+- The workstation running the playbook must have network connectivity to the remote host
+- The remote host must have Network connectivity to the CyberArk vault and the repository server
+  - 443 port outbound
+  - 1858 port outbound 
+- Administrator access to the remote host 
+- PSM CD image
+
 
 ### Flow Variables
 Variable                         | Required     | Default                                   | Comments
 :--------------------------------|:-------------|:------------------------------------------|:---------
 psm_prerequisites                | no           | false                                     | Install PSM pre requisites
 psm_install                      | no           | false                                     | Install PSM
-psm_postinstall                  | no           | false                                     | PSM port install role
-psm_hardening                    | no           | false                                     | PSM hardening role
-psm_registration                 | no           | false                                     | PSM Register with Vault
+psm_postinstall                  | no           | false                                     | PSM post install role
+psm_hardening                    | no           | false                                     | Apply PSM hardening
+psm_registration                 | no           | false                                     | Connect PSM to the Vault
 psm_upgrade                      | no           | false                                     | N/A
-psm_clean                        | no           | false                                     | Clean server after deployment
+psm_clean                        | no           | false                                     | N/A
 psm_uninstall                    | no           | false                                     | N/A
 
 ### Deployment Variables
@@ -34,10 +39,6 @@ connect_with_rdp                 | yes          | **No**                        
 vault_username                   | no           | **administrator**                                    | Vault username to perform registration
 vault_port                       | no           | **1858**                                             | Vault port
 dr_vault_ip                      | no           | None                                                 | Vault DR IP address to perform registration
-psm_base_bin_drive               | no           | **C:**                                               | Base path to extract CyberArk packages
-psm_extract_folder               | no           | **{{psm_base_bin_drive}}\\Cyberark\\packages**       | Path to extract the CyberArk packages
-psm_artifact_name                | no           | **psm.zip**                                          | Zip file name of PSM package
-psm_component_folder             | no           | **Privileged Session Manager**                       | The name of PSM unzip folder
 psm_installation_drive           | no           | **C:**                                               | Base drive to install PSM
 psm_out_of_domain                | no           | false                                                | Flag to determine if server is out of domain
 
@@ -100,3 +101,4 @@ For an example of how to incorporate this role into a complete playbook, please 
 
 ## License
 [Apache 2](LICENSE)
+
