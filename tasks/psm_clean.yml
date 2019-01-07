@@ -14,7 +14,7 @@
 
 - name: Find all Relevant Files in the Windows Temp Folder
   win_find:
-    paths: "%TEMP%"
+    paths: C:\Windows\Temp
     patterns: ['PSM*.*', 'InstallationAutomation*.*']
   register: files_to_delete
 
