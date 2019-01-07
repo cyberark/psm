@@ -24,7 +24,9 @@
 - name: check if package is valid using checksum
   fail:
     msg: "Checksum does not match, please validate your package."
-  when: st.stat.checksum !=  psm_sha1_checksum
+  when:
+    - st.stat.checksum !=  psm_sha1_checksum
+    - not psm_ignore_checksum
 
 - name: check psm_out_of_domain is boolean
   fail:
