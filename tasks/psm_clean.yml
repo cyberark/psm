@@ -88,4 +88,4 @@
 
 - name: End play if Deployment folder was not deleted
   fail: msg="Error on folder deletion, stop play..."
-  when: folder_data.stat.exists == True
+  when: folder_data.stat.exists
