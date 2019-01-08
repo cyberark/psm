@@ -16,16 +16,16 @@
     path: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
   register: st
 
+- fail:
+    msg: "{{ psm_zip_file_path }} not exists, failing..."
+  when: not st.stat.exists
+
 - name: check if package is valid using checksum
   fail:
     msg: "Checksum does not match, please validate your package."
   when:
     - st.stat.checksum != psm_sha1_checksum
     - not psm_ignore_checksum
-
-- fail:
-    msg: "{{ psm_zip_file_path }} not exists, failing..."
-  when: not st.stat.exists
 
 - name: Unzip the psm package
   win_unzip:
