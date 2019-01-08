@@ -1,6 +1,11 @@
 ---
 # tasks file for psm_hardening
 
+- name: check psm_out_of_domain is boolean
+  fail:
+    msg: "psm_out_of_domain should be true/false, current type is {{ psm_out_of_domain | type_debug }}"
+  when: psm_out_of_domain | type_debug != 'bool'
+
 - name: update psm out-of-domain parameter
   win_shell: |
     try
