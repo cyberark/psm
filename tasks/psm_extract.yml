@@ -37,4 +37,4 @@
 - name: copy add_admin_to_psmmaster.ps1 script to server
   win_copy:
     src: "./files/add_admin_to_psmmaster.ps1"
-    dest: "{{ psm_registrationtool_folder }}"
+    dest: "{{ psm_registrationtool_folder }}\\"
