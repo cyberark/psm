@@ -44,7 +44,7 @@
     - name: run psm hardening
       win_shell: |
         Set-Location "{{ psm_installationautomation_folder }}"
-        $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\Hardening\HardeningConfig.xml" -displayJson
+        $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\Hardening\HardeningConfig.xml" -displayJson -delayedrestart
         $Action | Out-File -FilePath "{{ psm_hardening_log }}"
         $Result = Get-Content "{{ psm_hardening_log }}" | ConvertFrom-Json
         if ($Result.isSucceeded -ne 0) {
@@ -52,6 +52,18 @@
         } else {
             exit 0
         }
+
+    - name: Get log path for hardening
+      win_shell: |
+        $Result = Get-Content "{{ psm_hardening_log }}"
+        Write-Output $Result
+      register: log_result
+
+    - win_reboot:
+        reboot_timeout: 300
+      when: item.restartRequired
+      with_items:
+        - "{{ log_result.stdout | from_json }}"
 
   rescue:
 
