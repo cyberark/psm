@@ -9,6 +9,7 @@ psm_registration: false
 psm_upgrade: false
 psm_clean: false
 psm_extract: false
+psm_ignore_checksum: false
 
 psm_exists: false
 psm_hardened: false

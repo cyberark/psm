@@ -1,2 +1,91 @@
 ---
 # tasks file for psm_clean
+
+- name: Find all inf and log files in hardening folder
+  win_find:
+    paths: "{{ psm_installation_path }}\\PSM\\Hardening"
+    patterns: ['*.inf', '*.log']
+  register: files_to_delete
+
+- name: Delete all inf and log files in the hardening folder
+  win_file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ files_to_delete.files }}"
+
+- name: Find all Relevant Files in the Windows Temp Folder
+  win_find:
+    paths: C:\Windows\Temp
+    patterns: ['PSM*.*', 'InstallationAutomation*.*']
+  register: files_to_delete
+
+- name: Delete all Relevant Files in the Windows Temp Folder
+  win_file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ files_to_delete.files }}"
+
+- name: Clean cred files
+  win_file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ psm_installation_path }}\\PSM\\Vault\\psmgw.ini"
+    - "{{ psm_installation_path }}\\PSM\\Vault\\psmapp.ini"
+
+- name: Clean Event Viewer
+  win_shell: |
+    try {
+      wevtutil el | ForEach-Object { wevtutil cl "$_" }
+    } catch {
+      Write-Output "Error occured: $error"
+      exit 1
+    }
+    exit 0
+
+- name: Empty Recycle Bin
+  win_shell: |
+    try {
+      $Recycler = (New-Object -ComObject Shell.Application).Namespace(0xa)
+      $Recycler.items() | ForEach-Object { rm $_.path -Force -Recurse }
+    } catch {
+      Write-Output "Error occured: $error"
+      exit 1
+    }
+    exit 0
+
+- name: Clean Run History
+  win_shell: |
+    try {
+      $path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU"
+
+      if (& { Test-Path $path } 2>&1) {
+        $arr = (Get-Item -Path $path).Property
+        foreach ($item in $arr)
+        {
+          if ($item -ne "(Default)")
+          {
+            Remove-ItemProperty -Path $path -Name $item -ErrorAction SilentlyContinue
+          }
+        }
+      }
+    } catch {
+      Write-Output "Error occured: $error"
+      exit 1
+    }
+    exit 0
+
+
+- name: Delete the deployment folder
+  win_file:
+    path: "{{ psm_extract_folder }}"
+    state: absent
+
+- name: Validate folder Deletion
+  win_stat:
+    path: "{{ psm_extract_folder }}"
+  register: folder_data
+
+- name: End play if Deployment folder was not deleted
+  fail: msg="Error on folder deletion, stop play..."
+  when: folder_data.stat.exists

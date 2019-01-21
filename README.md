@@ -101,4 +101,3 @@ For an example of how to incorporate this role into a complete playbook, please 
 
 ## License
 Apache License, Version 2.0 
-
