@@ -59,7 +59,8 @@
         Write-Output $Result
       register: log_result
 
-    - win_reboot:
+    - name: Reboot when PSM hardening requires reboot
+      win_reboot:
         reboot_timeout: 300
       when: item.restartRequired
       with_items:

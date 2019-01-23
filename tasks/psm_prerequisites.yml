@@ -53,8 +53,18 @@
             exit 0
         }
 
-    - win_reboot:
+    - name: Get log path for installation
+      win_shell: |
+        $Result = Get-Content "{{ psm_prerequisites_log }}"
+        Write-Output $Result
+      register: log_result
+
+    - name: Reboot when PSM Prerequisites requires reboot
+      win_reboot:
         reboot_timeout: 300
+      when: item.restartRequired
+      with_items:
+        - "{{ log_result.stdout | from_json }}"
 
     - name: continue execute psm prerequisities after restart
       win_shell: |
