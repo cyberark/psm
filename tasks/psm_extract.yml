@@ -33,4 +33,3 @@
     src: "{{ psm_extract_folder }}\\{{ psm_component_folder }}\\RegistrationTool\\"
     dest: "{{ psm_registrationtool_folder }}"
     remote_src: yes
-
