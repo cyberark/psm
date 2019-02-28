@@ -1,11 +1,6 @@
 ---
 # tasks file for psm registration
 
-- name: validate if pvwa ip is defined
-  fail:
-    msg: "PVWA ip must be sent in order to register PSM"
-  when: pvwa_ip is not defined
-
 - name: Registration Block
   block:
 
