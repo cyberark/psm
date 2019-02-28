@@ -3,15 +3,15 @@ This Ansible Role will deploy and install CyberArk Privileged Session Manager in
 
 ## Requirements
 ------------
- 
+
 - Windows 2016 installed on the remote host
-- WinRM open on port 5986 (**not 5985**) on the remote host 
+- WinRM open on port 5986 (**not 5985**) on the remote host
 - Pywinrm is installed on the workstation running the playbook
 - The workstation running the playbook must have network connectivity to the remote host
 - The remote host must have Network connectivity to the CyberArk vault and the repository server
   - 443 port outbound
-  - 1858 port outbound 
-- Administrator access to the remote host 
+  - 1858 port outbound
+- Administrator access to the remote host
 - PSM CD image
 
 
@@ -36,7 +36,6 @@ vault_username                   | no           | **administrator**             
 vault_password                   | yes          | None                                                 | Vault password to perform registration
 dr_vault_ip                      | no           | None                                                 | Vault DR IP address to perform registration
 accept_eula                      | yes          | **No**                                               | Accepting EULA condition (Yes/No)
-pvwa_url                         | yes          | None                                                 | URL of registered PVWA
 psm_zip_file_path                | yes          | None                                                 | CyberArk PSM installation Zip file package path
 connect_with_rdp                 | yes          | **No**                                               | Disable NLA on the server
 psm_installation_drive           | no           | **C:**                                               | Destination installation drive
@@ -100,4 +99,4 @@ For an example of how to incorporate this role into a complete playbook, please 
 **[pas-orchestrator](https://github.com/cyberark/pas-orchestrator)** example.
 
 ## License
-Apache License, Version 2.0 
+Apache License, Version 2.0
