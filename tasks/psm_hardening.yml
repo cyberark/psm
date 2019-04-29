@@ -46,7 +46,7 @@
         Set-Location "{{ psm_installationautomation_folder }}"
         $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\Hardening\HardeningConfig.xml" -displayJson -delayedrestart
         $Action | Out-File -FilePath "{{ psm_hardening_log }}"
-        $Result = Get-Content "{{ psm_hardening_log }}" | ConvertFrom-Json
+        $Result = Get-Content "{{ psm_hardening_log }}" -Raw | ConvertFrom-Json
         if ($Result.isSucceeded -ne 0) {
             exit 1
         } else {
