@@ -27,6 +27,19 @@
   win_unzip:
     src: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
     dest: "{{ psm_extract_folder }}"
+  when: psm_official
+
+- name: Create component folder
+  win_file:
+    path: "{{ psm_extract_folder }}\\{{ psm_component_folder }}"
+    state: directory
+  when: not psm_official
+
+- name: Unzip the psm package
+  win_unzip:
+    src: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
+    dest: "{{ psm_extract_folder }}\\{{ psm_component_folder }}"
+  when: not psm_official
 
 - name: Copy registration tool
   win_copy:
