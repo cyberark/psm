@@ -10,7 +10,7 @@ psm_upgrade: false
 psm_clean: false
 psm_extract: false
 psm_ignore_checksum: false
-
+psm_official: true
 psm_exists: false
 psm_hardened: false
 psm_registered: false
@@ -25,18 +25,19 @@ psm_installationautomation_folder: "{{ psm_extract_folder }}\\{{ psm_component_f
 
 psm_installation_drive: "C:"
 psm_installation_path: "{{ psm_installation_drive }}\\Program Files (x86)\\CyberArk"
-psm_registrationtool_folder: "{{ psm_base_bin_drive }}\\Cyberark\\Components Registration"
+psm_registrationtool_folder: "{{ psm_installationautomation_folder }}\\Registration"
+
 psm_out_of_domain: false
+psm_restart: true
 
 accept_eula: "No"
-accept_sql_eula: "No"
 connect_with_rdp: "No"
 
 psm_prerequisites_log: "{{ psm_installationautomation_folder }}\\psm_pre_req_result.txt"
 psm_install_log: "{{ psm_installationautomation_folder }}\\psm_installation_result.txt"
 psm_postinstall_log: "{{ psm_installationautomation_folder }}\\psm_post_install_result.txt"
 psm_hardening_log: "{{ psm_installationautomation_folder }}\\psm_hardening_result.txt"
-psm_registration_log: "{{ psm_registrationtool_folder }}\\Log\\RegisterComponent.log"
+psm_registration_log: "{{ psm_installationautomation_folder }}\\psm_registration_result.txt"
 
 vault_username: "administrator"
 vault_port: 1858

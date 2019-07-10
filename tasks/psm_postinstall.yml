@@ -9,12 +9,101 @@
         Set-Location "{{ psm_installationautomation_folder }}"
         $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\PostInstallation\PostInstallationConfig.xml" -displayJson
         $Action | Out-File -FilePath "{{ psm_postinstall_log }}"
-        $Result = Get-Content "{{ psm_postinstall_log }}" | ConvertFrom-Json
+        $Result = Get-Content "{{ psm_postinstall_log }}" -Raw | ConvertFrom-Json
         if ($Result.isSucceeded -ne 0) {
             exit 1
         } else {
             exit 0
         }
+
+    - name: Get log path for post installation
+      win_shell: |
+        $Result = Get-Content "{{ psm_postinstall_log }}"
+        Write-Output $Result
+      register: log_result
+
+    - name: Fetch postinstall log from path
+      fetch:
+        src: '{{ item.logPath }}'
+        dest: '{{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_postinstall.log'
+        flat: yes
+      with_items:
+        - "{{ log_result.stdout | from_json }}"
+
+    - name: Enable AutoAdminLogon
+      win_regedit:
+        path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+        name: AutoAdminLogon
+        data: 1
+      with_items:
+        - "{{ log_result.stdout | from_json }}"
+      when:
+        - item.restartRequired
+        - psm_restart
+
+    - name: Set Default Username for AutoAdminLogon
+      win_regedit:
+        path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+        name: DefaultUsername
+        data: "{{ ansible_user }}"
+      with_items:
+        - "{{ log_result.stdout | from_json }}"
+      when:
+        - item.restartRequired
+        - psm_restart
+
+    - name: Set Default Password for AutoAdminLogon
+      win_regedit:
+        path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+        name: DefaultPassword
+        data: "{{ ansible_password }}"
+      with_items:
+        - "{{ log_result.stdout | from_json }}"
+      when:
+        - item.restartRequired
+        - psm_restart
+
+    - name: Reboot when PSM Post Installation requires reboot
+      win_reboot:
+        reboot_timeout: 300
+      with_items:
+        - "{{ log_result.stdout | from_json }}"
+      when:
+        - item.restartRequired
+        - psm_restart
+
+    - name: Remove AutoAdminLogon
+      win_regedit:
+        path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+        name: AutoAdminLogon
+        state: absent
+      with_items:
+        - "{{ log_result.stdout | from_json }}"
+      when:
+        - item.restartRequired
+        - psm_restart
+
+    - name: Remove Username for AutoAdminLogon
+      win_regedit:
+        path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+        name: DefaultUsername
+        state: absent
+      with_items:
+        - "{{ log_result.stdout | from_json }}"
+      when:
+        - item.restartRequired
+        - psm_restart
+
+    - name: Remove Password for AutoAdminLogon
+      win_regedit:
+        path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+        name: DefaultPassword
+        state: absent
+      with_items:
+        - "{{ log_result.stdout | from_json }}"
+      when:
+        - item.restartRequired
+        - psm_restart
 
   rescue:
 
@@ -24,15 +113,16 @@
         Write-Output $Result
       register: log_result
 
-    - fetch:
+    - name: Fetch postinstall log from path
+      fetch:
         src: '{{ item.logPath }}'
-        dest: '{{ playbook_dir }}/logs/psm/{{ inventory_hostname }}_postinstall.log'
+        dest: '{{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_postinstall.log'
         flat: yes
       with_items:
         - "{{ log_result.stdout | from_json }}"
 
     - fail:
-        msg: 'ERROR: Post Installation failed. For more info check {{ playbook_dir }}/logs/psm/{{ inventory_hostname }}_postinstall.log'
+        msg: 'ERROR: Post Installation failed. For more info check {{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_postinstall.log'
 
 - name: validate users exists and password expiration
   win_shell: |
