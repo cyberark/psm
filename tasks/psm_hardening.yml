@@ -163,11 +163,12 @@
 
 - name: validate hardening
   win_shell: |
-    $policyInfPath = "C:\CyberArk\group-policy.inf"
-    secedit /export /cfg $policyInfPath /log c:\CyberArk\export.log
-    if (Test-Path C:\CyberArk\group-policy.inf)
+    $policyInfPath = "{{ psm_installationautomation_folder }}\\group-policy.inf"
+    $policyLogPath = "{{ psm_installationautomation_folder }}\\group-policy.log"
+    secedit /export /cfg "$policyInfPath" /log "$policyLogPath"
+    if (Test-Path "$policyInfPath")
     {
-        $stringFound = Select-String -Path $policyInfPath -Pattern 'PSMShadowUsers'
+        $stringFound = Select-String -Path "$policyInfPath" -Pattern 'PSMShadowUsers'
         if ($stringFound -ne $null)
         {
             exit 0
