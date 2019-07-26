@@ -129,12 +129,12 @@
     $ErrorActionPreference = "Stop"
 
     try {
-        $user = gwmi -class Win32_UserAccount | Where {$_.Name -eq 'PSMConnect'}
+        $user = Get-WmiObject -Class Win32_UserAccount -Filter {Name = "PSMConnect"}
         if ($user -eq $null)
         {
           exit  1
         }
-        $user = gwmi -class Win32_UserAccount | Where {$_.Name -eq 'PSMAdminConnect'}
+        $user = Get-WmiObject -Class Win32_UserAccount -Filter {Name = "PSMAdminConnect"}
         if ($user -eq $null)
         {
           exit  1
