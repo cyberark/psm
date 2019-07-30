@@ -4,7 +4,7 @@
 - name: Registration Block
   block:
 
-    - name: Set up psm registration configuration file
+    - name: Update PSM registration configuration file
       win_shell: |
         try
         {
@@ -28,7 +28,7 @@
         }
       when: dr_vault_ip is not defined
 
-    - name: Set up psm registration configuration file
+    - name: Update PSM registration configuration file
       win_shell: |
         try
         {
@@ -52,7 +52,7 @@
         }
       when: dr_vault_ip is defined
 
-    - name: Execute psm registration
+    - name: Run PSM registration
       win_shell: |
         Set-Location "{{ psm_installationautomation_folder }}"
         $Action = .\Execute-Stage.ps1 "{{ psm_registrationtool_folder }}\\RegistrationConfig.xml" -silentMode "Silent" -displayJson -pwd "{{ vault_password }}"
@@ -70,13 +70,13 @@
         dest: '{{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_registration.log'
         flat: yes
 
-    - name: start psm service & set to auto
+    - name: Start PSM service & set to auto
       win_service:
         name: "{{ psm_service_name }}"
         start_mode: auto
         state: started
 
-    - name: check if psm service is running
+    - name: check if PSM service is running
       win_service:
         name: "{{ psm_service_name }}"
       register: psm_service_info

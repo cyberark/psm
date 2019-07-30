@@ -33,7 +33,7 @@
     - "{{ psm_installation_path }}\\PSM\\Vault\\psmgw.ini"
     - "{{ psm_installation_path }}\\PSM\\Vault\\psmapp.ini"
 
-- name: Clean Event Viewer
+- name: Clean event viewer
   win_shell: |
     try {
       wevtutil el | ForEach-Object { wevtutil cl "$_" }
@@ -43,7 +43,7 @@
     }
     exit 0
 
-- name: Empty Recycle Bin
+- name: Empty recycle bin
   win_shell: |
     try {
       $Recycler = (New-Object -ComObject Shell.Application).Namespace(0xa)
@@ -54,7 +54,7 @@
     }
     exit 0
 
-- name: Clean Run History
+- name: Clean run history
   win_shell: |
     try {
       $path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU"

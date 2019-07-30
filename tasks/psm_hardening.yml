@@ -1,12 +1,12 @@
 ---
 # tasks file for psm_hardening
 
-- name: check psm_out_of_domain is boolean
+- name: Check psm_out_of_domain is boolean
   fail:
     msg: "psm_out_of_domain should be true/false, current type is {{ psm_out_of_domain | type_debug }}"
   when: psm_out_of_domain | type_debug != 'bool'
 
-- name: update psm out-of-domain parameter
+- name: Update PSM out-of-domain parameter
   win_shell: |
     try
     {
@@ -24,7 +24,7 @@
         exit 1
     }
 
-- name: update psm hardening app-locker folders
+- name: Update PSM hardening app-locker folders
   win_shell: |
     try
     {
@@ -41,7 +41,7 @@
 - name: Hardening Block
   block:
 
-    - name: run psm hardening
+    - name: Run PSM hardening
       win_shell: |
         Set-Location "{{ psm_installationautomation_folder }}"
         $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\Hardening\HardeningConfig.xml" -silentMode "Silent" -displayJson -delayedrestart
@@ -78,7 +78,7 @@
         - item.restartRequired
         - psm_restart
 
-    - name: Set Default Username for AutoAdminLogon
+    - name: Set default username for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultUsername
@@ -89,7 +89,7 @@
         - item.restartRequired
         - psm_restart
 
-    - name: Set Default Password for AutoAdminLogon
+    - name: Set default password for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultPassword
@@ -120,7 +120,7 @@
         - item.restartRequired
         - psm_restart
 
-    - name: Remove Username for AutoAdminLogon
+    - name: Remove username for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultUsername
@@ -131,7 +131,7 @@
         - item.restartRequired
         - psm_restart
 
-    - name: Remove Password for AutoAdminLogon
+    - name: Remove password for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultPassword
@@ -161,7 +161,7 @@
     - fail:
         msg: 'ERROR: Hardening failed. For more info check {{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_hardening.log'
 
-- name: validate hardening
+- name: Validate PSM hardening
   win_shell: |
     $policyInfPath = "{{ psm_installationautomation_folder }}\\group-policy.inf"
     $policyLogPath = "{{ psm_installationautomation_folder }}\\group-policy.log"
