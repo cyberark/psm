@@ -75,6 +75,11 @@
     }
     exit 0
 
+- name: Keep installation automation folder
+  win_copy:
+    src: C:\Cyberark\packages\InstallationAutomation
+    dest: C:\Cyberark
+    remote_src: True
 
 - name: Delete the deployment folder
   win_file:
