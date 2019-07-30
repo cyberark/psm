@@ -77,7 +77,7 @@
 
 - name: Keep installation automation folder
   win_copy:
-    src: C:\Cyberark\packages\InstallationAutomation
+    src: C:\Cyberark\packages\Privileged Session Manager\InstallationAutomation
     dest: C:\Cyberark
     remote_src: True
 
