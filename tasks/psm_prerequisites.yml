@@ -26,7 +26,7 @@
     - name: execute psm prerequisities
       win_shell: |
         Set-Location '{{ psm_installationautomation_folder }}'
-        $Action = .\Execute-Stage.ps1 '{{ psm_installationautomation_folder }}\Prerequisites\PrerequisitesConfig.xml' -displayJson -delayedrestart
+        $Action = .\Execute-Stage.ps1 '{{ psm_installationautomation_folder }}\Prerequisites\PrerequisitesConfig.xml' -silentMode "Silent" -displayJson -delayedrestart
         $Action | Out-File -FilePath '{{ psm_prerequisites_log }}'
         $Result = Get-Content '{{ psm_prerequisites_log }}' -Raw | ConvertFrom-Json
         if ($Result.isSucceeded -ne 0) {
@@ -119,7 +119,7 @@
     - name: continue execute psm prerequisities after restart
       win_shell: |
         Set-Location "{{ psm_installationautomation_folder }}"
-        $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\Prerequisites\PrerequisitesConfig.xml" -displayJson
+        $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\Prerequisites\PrerequisitesConfig.xml" -silentMode "Silent" -displayJson
         $Action | Out-File -FilePath "{{ psm_prerequisites_log }}"
         $Result = Get-Content "{{ psm_prerequisites_log }}" -Raw | ConvertFrom-Json
         if ($Result.isSucceeded -ne 0) {
