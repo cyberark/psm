@@ -5,7 +5,7 @@
     msg: "You must accept EULA to start the playbook"
   when: (accept_eula|type_debug != 'bool' and accept_eula|lower != "yes") or (accept_eula|type_debug == 'bool' and not accept_eula)
 
-- name: check psm service status
+- name: Check PSM service status
   win_service:
     name: "{{ psm_service_name }}"
   register: psm_service_info
@@ -14,7 +14,7 @@
     psm_exists: true
   when: psm_service_info.exists
 
-- name: check if psm is registered
+- name: Check if PSM is registered
   set_fact:
     psm_registered: true
   when:

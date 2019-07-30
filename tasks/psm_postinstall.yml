@@ -4,7 +4,7 @@
 - name: Post Installation Block
   block:
 
-    - name: execute psm post installation
+    - name: Run PSM post installation
       win_shell: |
         Set-Location "{{ psm_installationautomation_folder }}"
         $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\PostInstallation\PostInstallationConfig.xml" -silentMode "Silent" -displayJson
@@ -41,7 +41,7 @@
         - item.restartRequired
         - psm_restart
 
-    - name: Set Default Username for AutoAdminLogon
+    - name: Set default username for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultUsername
@@ -52,7 +52,7 @@
         - item.restartRequired
         - psm_restart
 
-    - name: Set Default Password for AutoAdminLogon
+    - name: Set default password for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultPassword
@@ -83,7 +83,7 @@
         - item.restartRequired
         - psm_restart
 
-    - name: Remove Username for AutoAdminLogon
+    - name: Remove username for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultUsername
@@ -94,7 +94,7 @@
         - item.restartRequired
         - psm_restart
 
-    - name: Remove Password for AutoAdminLogon
+    - name: Remove password for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultPassword
