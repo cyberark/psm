@@ -80,7 +80,7 @@
     src: "{{ psm_installationautomation_folder }}"
     dest: "{{ psm_base_bin_drive }}\\Cyberark"
     remote_src: True
-
+    
 - name: Keep Registration Tool folder
   win_copy:
     src: "{{ psm_registrationtool_folder }}"
