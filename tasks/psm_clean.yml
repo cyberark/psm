@@ -78,7 +78,7 @@
 - name: Keep installation automation folder
   win_copy:
     src: "{{ psm_installationautomation_folder }}"
-    dest: C:\Cyberark
+    dest: "{{ psm_base_bin_drive }}\\Cyberark"
     remote_src: True
 
 - name: Delete the deployment folder
