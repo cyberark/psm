@@ -22,6 +22,7 @@ psm_extract_folder: "{{ psm_base_bin_drive }}\\Cyberark\\packages"
 psm_artifact_name: "psm.zip"
 psm_component_folder: "Privileged Session Manager"
 psm_installationautomation_folder: "{{ psm_extract_folder }}\\{{ psm_component_folder }}\\InstallationAutomation"
+psm_registrationtool_folder: "{{ psm_extract_folder }}\\{{ psm_component_folder }}\\RegistrationTool"
 
 psm_installation_drive: "C:"
 psm_installation_path: "{{ psm_installation_drive }}\\Program Files (x86)\\CyberArk"
