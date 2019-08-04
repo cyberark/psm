@@ -81,6 +81,12 @@
     dest: C:\Cyberark
     remote_src: True
 
+- name: Keep Registration Tool folder
+  win_copy:
+    src: "{{psm_registrationtool_folder}}"
+    dest: C:\Cyberark
+    remote_src: True
+
 - name: Delete the deployment folder
   win_file:
     path: "{{ psm_extract_folder }}"
