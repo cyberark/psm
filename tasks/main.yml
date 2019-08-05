@@ -9,33 +9,39 @@
   include_tasks: psm_extract.yml
   when:
     - psm_extract
+  tags: [print_action]
 
 - name: Running PSM prerequisities
   include_tasks: psm_prerequisites.yml
   when:
     - psm_prerequisites
+  tags: [print_action]
 
 - name: Running PSM uninstall
   include_tasks: psm_uninstall.yml
   when:
     - psm_uninstall
+  tags: [print_action]
 
 - name: Running PSM install
   include_tasks: psm_install.yml
   when:
     - psm_install
+  tags: [print_action]
 
 - name: Running PSM postinstall
   include_tasks: psm_postinstall.yml
   when:
     - psm_exists
     - psm_postinstall
+  tags: [print_action]
 
 - name: Running PSM hardening
   include_tasks: psm_hardening.yml
   when:
     - psm_exists
     - psm_hardening
+  tags: [print_action]
 
 - name: Running PSM registration
   include_tasks: psm_registration.yml
@@ -43,13 +49,16 @@
     - psm_registration
     - psm_exists
     - not psm_registered
+  tags: [print_action]
 
 - name: Running psm upgrade
   include_tasks: psm_upgrade.yml
   when:
     - psm_upgrade
+  tags: [print_action]
 
 - name: Running PSM clean
   include_tasks: psm_clean.yml
   when:
     - psm_clean
+  tags: [print_action]
