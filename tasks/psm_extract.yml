@@ -6,7 +6,7 @@
     path: "{{ psm_extract_folder }}"
     state: directory
 
-- name: Copy psm package from local source
+- name: Copy PSM package from local source
   win_copy:
     src: "{{ psm_zip_file_path }}"
     dest: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
@@ -16,14 +16,14 @@
     msg: "{{ psm_zip_file_path }} not exists, failing..."
   when: not st.checksum
 
-- name: check if package is valid using checksum
+- name: Check if package is valid using checksum
   fail:
     msg: "Checksum does not match, please validate your package."
   when:
     - st.checksum != psm_sha1_checksum
     - not psm_ignore_checksum
 
-- name: Unzip the psm package
+- name: Unzip the PSM package
   win_unzip:
     src: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
     dest: "{{ psm_extract_folder }}"
@@ -35,7 +35,7 @@
     state: directory
   when: not psm_official
 
-- name: Unzip the psm package
+- name: Unzip the PSM package
   win_unzip:
     src: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
     dest: "{{ psm_extract_folder }}\\{{ psm_component_folder }}"
