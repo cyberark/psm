@@ -1,7 +1,7 @@
 ---
 # tasks file for psm prerequisities
 
-- name: update NLA & UpdateRDSSecurityLayer installation
+- name: Update NLA & UpdateRDSSecurityLayer installation
   win_shell: |
     try
     {
@@ -23,10 +23,10 @@
 - name: Preinstall Block
   block:
 
-    - name: execute psm prerequisities
+    - name: Run PSM prerequisities
       win_shell: |
         Set-Location '{{ psm_installationautomation_folder }}'
-        $Action = .\Execute-Stage.ps1 '{{ psm_installationautomation_folder }}\Prerequisites\PrerequisitesConfig.xml' -displayJson -delayedrestart
+        $Action = .\Execute-Stage.ps1 '{{ psm_installationautomation_folder }}\Prerequisites\PrerequisitesConfig.xml' -silentMode "Silent" -displayJson -delayedrestart
         $Action | Out-File -FilePath '{{ psm_prerequisites_log }}'
         $Result = Get-Content '{{ psm_prerequisites_log }}' -Raw | ConvertFrom-Json
         if ($Result.isSucceeded -ne 0) {
@@ -52,7 +52,7 @@
       with_items:
         - "{{ log_result.stdout | from_json }}"
 
-    - name: Set Default Username for AutoAdminLogon
+    - name: Set default username for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultUsername
@@ -63,7 +63,7 @@
       with_items:
         - "{{ log_result.stdout | from_json }}"
 
-    - name: Set Default Password for AutoAdminLogon
+    - name: Set default password for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultPassword
@@ -94,7 +94,7 @@
         - item.restartRequired
         - psm_restart
 
-    - name: Remove Username for AutoAdminLogon
+    - name: Remove username for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultUsername
@@ -105,7 +105,7 @@
         - item.restartRequired
         - psm_restart
 
-    - name: Remove Password for AutoAdminLogon
+    - name: Remove password for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultPassword
@@ -116,10 +116,10 @@
         - item.restartRequired
         - psm_restart
 
-    - name: continue execute psm prerequisities after restart
+    - name: Continue execute PSM prerequisities after restart (if required)
       win_shell: |
         Set-Location "{{ psm_installationautomation_folder }}"
-        $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\Prerequisites\PrerequisitesConfig.xml" -displayJson
+        $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\Prerequisites\PrerequisitesConfig.xml" -silentMode "Silent" -displayJson
         $Action | Out-File -FilePath "{{ psm_prerequisites_log }}"
         $Result = Get-Content "{{ psm_prerequisites_log }}" -Raw | ConvertFrom-Json
         if ($Result.isSucceeded -ne 0) {
@@ -153,7 +153,7 @@
       with_items:
         - "{{ log_result.stdout | from_json }}"
 
-    - name: Set Default Username for AutoAdminLogon
+    - name: Set default username for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultUsername
@@ -164,7 +164,7 @@
       with_items:
         - "{{ log_result.stdout | from_json }}"
 
-    - name: Set Default Password for AutoAdminLogon
+    - name: Set default password for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultPassword
@@ -195,7 +195,7 @@
         - item.restartRequired
         - psm_restart
 
-    - name: Remove Username for AutoAdminLogon
+    - name: Remove username for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultUsername
@@ -206,7 +206,7 @@
         - item.restartRequired
         - psm_restart
 
-    - name: Remove Password for AutoAdminLogon
+    - name: Remove password for AutoAdminLogon
       win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultPassword
