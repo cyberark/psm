@@ -80,12 +80,14 @@
     src: "{{ psm_installationautomation_folder }}"
     dest: "{{ psm_base_bin_drive }}\\Cyberark\\PSM"
     remote_src: True
+  ignore_errors: yes
 
 - name: Keep Registration Tool folder
   win_copy:
     src: "{{ psm_registrationtool_location }}"
     dest: "{{ psm_base_bin_drive }}\\Cyberark\\PSM"
     remote_src: True
+  ignore_errors: yes
 
 - name: Delete the deployment folder
   win_file:
