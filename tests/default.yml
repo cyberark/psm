@@ -17,6 +17,7 @@
         name: psm
       vars:
         - psm_extract: true
+        - psm_official: false
         - psm_prerequisites: true
         - psm_install: true
         - psm_postinstall: true
