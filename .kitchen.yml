@@ -31,7 +31,7 @@ platforms:
   - name: psm
     driver_plugin: ec2
     driver_config:
-      instance_type: m4.large
+      instance_type: c4.2xlarge
       associate_public_ip: false
       subnet_filter:
         tag: 'Name'
