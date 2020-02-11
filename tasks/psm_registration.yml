@@ -55,7 +55,8 @@
     - name: Run PSM registration
       win_shell: |
         Set-Location "{{ psm_installationautomation_folder }}"
-        $Action = .\Execute-Stage.ps1 "{{ psm_registrationtool_folder }}\\RegistrationConfig.xml" -silentMode "Silent" -displayJson -pwd "{{ vault_password }}"
+        $secStrObj = ConvertTo-SecureString -String "{{ secure_vault_password }}" -Force
+        $Action = .\Execute-Stage.ps1 "{{ psm_registrationtool_folder }}\\RegistrationConfig.xml" -silentMode "Silent" -displayJson -spwdObj $secStrObj
         $Action | Out-File -FilePath "{{ psm_registration_log }}"
         $Result = Get-Content "{{ psm_registration_log }}" -Raw | ConvertFrom-Json
         if ($Result.isSucceeded -ne 0) {
