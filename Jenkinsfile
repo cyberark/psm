@@ -18,8 +18,7 @@ pipeline {
             cd roles
             git clone https://github.com/cyberark/psm
             cd psm
-            echo ${GIT_COMMIT}
-            git checkout ${GIT_COMMIT}
+            git checkout ${shortCommit}
         '''
       }
     }
