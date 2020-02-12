@@ -12,13 +12,8 @@ pipeline {
     stage('Get role') {
       steps {
         sh '''
-            cd tests
-            rm -rf roles
-            mkdir roles
-            cd roles
-            git clone https://github.com/cyberark/psm
-            cd psm
-            git checkout ${shortCommit}
+            mkdir -p tests/roles/psm
+            ln -sfr defaults files handlers meta tasks vars tests/roles/psm
         '''
       }
     }
