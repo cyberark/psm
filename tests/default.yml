@@ -4,24 +4,28 @@
   gather_facts: no
   tasks:
 
+    - name: Get roles directory dirname
+      set_fact:
+        roles_dirname: "{{ playbook_dir | dirname | basename }}"
+
     - name: download package from s3
       aws_s3:
         bucket: cloud-initiatives-pipeline-bucket
-        object: "Packages/v11.2/Privileged Session Manager-Rls-v11.2.zip"
+        object: "Packages/v11.3/Privileged Session Manager-Rls-v11.3.zip"
         dest: "/tmp/psm.zip"
         mode: get
       delegate_to: localhost
 
     - name: PSM Deployment
       include_role:
-        name: psm
+        name: "{{ roles_dirname }}"
       vars:
         - psm_extract: true
         - psm_official: false
         - psm_prerequisites: true
         - psm_install: true
         - psm_postinstall: true
-        - psm_hardening: true
+        - psm_hardening: false
         - psm_registration: false
         - psm_zip_file_path: "/tmp/psm.zip"
         - accept_eula: "yes"
