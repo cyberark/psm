@@ -21,7 +21,7 @@
         - psm_prerequisites: true
         - psm_install: true
         - psm_postinstall: true
-        - psm_hardening: true
+        - psm_hardening: false
         - psm_registration: false
         - psm_zip_file_path: "/tmp/psm.zip"
         - accept_eula: "yes"
