@@ -23,9 +23,7 @@ psm_install                      | no           | false                         
 psm_postinstall                  | no           | false                                     | PSM post install role
 psm_hardening                    | no           | false                                     | Apply PSM hardening
 psm_registration                 | no           | false                                     | Connect PSM to the Vault
-psm_upgrade                      | no           | false                                     | N/A
 psm_clean                        | no           | false                                     | N/A
-psm_uninstall                    | no           | false                                     | N/A
 
 ### Deployment Variables
 Variable                         | Required     | Default                                              | Comments
