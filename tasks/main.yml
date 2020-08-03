@@ -17,12 +17,6 @@
     - psm_prerequisites
   tags: [print_action]
 
-- name: Running PSM uninstall
-  include_tasks: psm_uninstall.yml
-  when:
-    - psm_uninstall
-  tags: [print_action]
-
 - name: Running PSM install
   include_tasks: psm_install.yml
   when:
@@ -49,12 +43,6 @@
     - psm_registration
     - psm_exists
     - not psm_registered
-  tags: [print_action]
-
-- name: Running psm upgrade
-  include_tasks: psm_upgrade.yml
-  when:
-    - psm_upgrade
   tags: [print_action]
 
 - name: Running PSM clean
