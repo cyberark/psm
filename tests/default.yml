@@ -29,11 +29,7 @@
     - name: download package from s3
       aws_s3:
         bucket: cloud-initiatives-pipeline-bucket
-<<<<<<< HEAD
         object: "Packages/v12.0/Privileged Session Manager-Rls-v12.0.3.zip"
-=======
-        object: "Packages/v12.0/Privileged Session Manager-Rls-v12.0.zip"
->>>>>>> develop
         dest: "/tmp/psm.zip"
         mode: get
       delegate_to: localhost
