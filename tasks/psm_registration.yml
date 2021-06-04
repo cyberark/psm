@@ -50,7 +50,7 @@
             Write-Output "Error occured While updating registration configuration file"
             exit 1
         }
-      when: dr_vault_ip is defined and dr_vault_ip != '' or dr_vault_ip is defined and dr_vault_ip != '1.1.1.1'
+      when: dr_vault_ip is defined and dr_vault_ip != ''
       
     - name: Run PSM registration
       win_shell: |
