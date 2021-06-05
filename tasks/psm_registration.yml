@@ -26,7 +26,7 @@
             Write-Output "Error occured While updating registration configuration file"
             exit 1
         }
-      when: dr_vault_ip is not defined
+      when: dr_vault_ip is undefined or dr_vault_ip == ''
 
     - name: Update PSM registration configuration file
       win_shell: |
@@ -50,7 +50,9 @@
             Write-Output "Error occured While updating registration configuration file"
             exit 1
         }
-      when: dr_vault_ip is defined and dr_vault_ip != ''
+      when: 
+        - dr_vault_ip is defined
+        - dr_vault_ip != ''
       
     - name: Run PSM registration
       win_shell: |
