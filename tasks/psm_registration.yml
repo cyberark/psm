@@ -88,6 +88,9 @@
         name: "{{ psm_service_name }}"
         start_mode: auto
         state: started
+             
+    - name: Reboot the machine
+      win_reboot:
 
     - name: check if PSM service is running
       win_service:
