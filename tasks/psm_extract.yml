@@ -10,6 +10,7 @@
   win_copy:
     src: "{{ psm_zip_file_path }}"
     dest: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
+    remote_src: "{{psm_zip_file_unc}}"    
   register: st
 
 - fail:
