@@ -5,7 +5,7 @@
   block:
 
     - name: Update PSM registration configuration file
-      win_shell: |
+      ansible.windows.win_shell: |
         try
         {
             $filePath = "{{ psm_registrationtool_folder }}\\RegistrationConfig.xml"
@@ -29,7 +29,7 @@
       when: dr_vault_ip is undefined or dr_vault_ip == ''
 
     - name: Update PSM registration configuration file
-      win_shell: |
+      ansible.windows.win_shell: |
         try
         {
             $filePath = "{{ psm_registrationtool_folder }}\\RegistrationConfig.xml"
@@ -55,7 +55,7 @@
         - dr_vault_ip != ''
       
     - name: Run PSM registration
-      win_shell: |
+      ansible.windows.win_shell: |
         Set-Location "{{ psm_installationautomation_folder }}"
         $secStrObj = ConvertTo-SecureString -String "{{ secure_vault_password }}" -Force
         $Action = .\Execute-Stage.ps1 "{{ psm_registrationtool_folder }}\\RegistrationConfig.xml" -silentMode "Silent" -displayJson -spwdObj $secStrObj
@@ -69,7 +69,7 @@
       no_log: true
 
     - name: Get log path for registration
-      win_shell: |
+      ansible.windows.win_shell: |
         $Result = Get-Content "{{ psm_registration_log }}"
         Write-Output $Result
       register: log_result
@@ -84,16 +84,16 @@
         - "{{ log_result.stdout | from_json }}"
 
     - name: Start PSM service & set to auto
-      win_service:
+      ansible.windows.win_service:
         name: "{{ psm_service_name }}"
         start_mode: auto
         state: started
              
     - name: Reboot the machine
-      win_reboot:
+      ansible.windows.win_reboot:
 
     - name: check if PSM service is running
-      win_service:
+      ansible.windows.win_service:
         name: "{{ psm_service_name }}"
       register: psm_service_info
 
@@ -104,7 +104,7 @@
   rescue:
 
     - name: Get log path for registration
-      win_shell: |
+      ansible.windows.win_shell: |
         $Result = Get-Content "{{ psm_registration_log }}"
         Write-Output $Result
       register: log_result

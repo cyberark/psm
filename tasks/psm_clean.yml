@@ -2,31 +2,31 @@
 # tasks file for psm_clean
 
 - name: Find all inf and log files in hardening folder
-  win_find:
+  ansible.windows.win_find:
     paths: "{{ psm_installation_path }}\\PSM\\Hardening"
     patterns: ['*.inf', '*.log']
   register: files_to_delete
 
 - name: Delete all inf and log files in the hardening folder
-  win_file:
+  ansible.windows.win_file:
     path: "{{ item.path }}"
     state: absent
   with_items: "{{ files_to_delete.files }}"
 
 - name: Find all Relevant Files in the Windows Temp Folder
-  win_find:
+  ansible.windows.win_find:
     paths: C:\Windows\Temp
     patterns: ['PSM*.*', 'InstallationAutomation*.*']
   register: files_to_delete
 
 - name: Delete all Relevant Files in the Windows Temp Folder
-  win_file:
+  ansible.windows.win_file:
     path: "{{ item.path }}"
     state: absent
   with_items: "{{ files_to_delete.files }}"
 
 - name: Clean cred files
-  win_file:
+  ansible.windows.win_file:
     path: "{{ item }}"
     state: absent
   with_items:
@@ -34,7 +34,7 @@
     - "{{ psm_installation_path }}\\PSM\\Vault\\psmapp.ini"
 
 - name: Clean event viewer
-  win_shell: |
+  ansible.windows.win_shell: |
     try {
       wevtutil el | ForEach-Object { wevtutil cl "$_" }
     } catch {
@@ -44,7 +44,7 @@
     exit 0
 
 - name: Empty recycle bin
-  win_shell: |
+  ansible.windows.win_shell: |
     try {
       $Recycler = (New-Object -ComObject Shell.Application).Namespace(0xa)
       $Recycler.items() | ForEach-Object { rm $_.path -Force -Recurse }
@@ -55,7 +55,7 @@
     exit 0
 
 - name: Clean run history
-  win_shell: |
+  ansible.windows.win_shell: |
     try {
       $path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU"
 
@@ -76,26 +76,26 @@
     exit 0
 
 - name: Keep installation automation folder
-  win_copy:
+  ansible.windows.win_copy:
     src: "{{ psm_installationautomation_folder }}"
     dest: "{{ psm_base_bin_drive }}\\Cyberark\\PSM"
     remote_src: True
   ignore_errors: yes
 
 - name: Keep Registration Tool folder
-  win_copy:
+  ansible.windows.win_copy:
     src: "{{ psm_registrationtool_location }}"
     dest: "{{ psm_base_bin_drive }}\\Cyberark\\PSM"
     remote_src: True
   ignore_errors: yes
 
 - name: Delete the deployment folder
-  win_file:
+  ansible.windows.win_file:
     path: "{{ psm_extract_folder }}"
     state: absent
 
 - name: Validate folder Deletion
-  win_stat:
+  ansible.windows.win_stat:
     path: "{{ psm_extract_folder }}"
   register: folder_data
 
