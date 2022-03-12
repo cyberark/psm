@@ -43,7 +43,7 @@
       register: log_result
 
     - name: Fetch installation log from path
-      fetch:
+      ansible.builtin.fetch:
         src: '{{ item.logPath }}'
         dest: '{{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_install.log'
         flat: yes
@@ -134,14 +134,14 @@
       register: log_result
 
     - name: Fetch installation log from path
-      fetch:
+      ansible.builtin.fetch:
         src: '{{ item.logPath }}'
         dest: '{{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_install.log'
         flat: yes
       with_items:
         - "{{ log_result.stdout | from_json }}"
 
-    - fail:
+    - ansible.builtin.fail:
         msg: 'ERROR: Installation failed. For more info check {{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_install.log'
 
 - name: check PSM service status
@@ -149,5 +149,5 @@
     name: "{{ psm_service_name }}"
   register: psm_service_info
 
-- set_fact:
+- ansible.builtin.set_fact:
     psm_exists: "{{ psm_service_info.exists }}"

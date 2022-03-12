@@ -2,7 +2,7 @@
 # tasks file for psm_hardening
 
 - name: Check psm_out_of_domain is boolean
-  fail:
+  ansible.builtin.fail:
     msg: "psm_out_of_domain should be true/false, current type is {{ psm_out_of_domain | type_debug }}"
   when: psm_out_of_domain | type_debug != 'bool'
 
@@ -47,7 +47,7 @@
       register: log_result
 
     - name: Fetch hardening log from path
-      fetch:
+      ansible.builtin.fetch:
         src: '{{ item.logPath }}'
         dest: '{{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_hardening.log'
         flat: yes
@@ -138,7 +138,7 @@
       register: log_result
 
     - name: Fetch hardening log from path
-      fetch:
+      ansible.builtin.fetch:
         src: '{{ item.logPath }}'
         dest: '{{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_hardening.log'
         flat: yes

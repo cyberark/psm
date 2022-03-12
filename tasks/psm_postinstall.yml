@@ -23,7 +23,7 @@
       register: log_result
 
     - name: Fetch postinstall log from path
-      fetch:
+      ansible.builtin.fetch:
         src: '{{ item.logPath }}'
         dest: '{{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_postinstall.log'
         flat: yes
@@ -114,7 +114,7 @@
       register: log_result
 
     - name: Fetch postinstall log from path
-      fetch:
+      ansible.builtin.fetch:
         src: '{{ item.logPath }}'
         dest: '{{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_postinstall.log'
         flat: yes
