@@ -6,7 +6,7 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - netfx-4.8
+    - dotnetfx
     - vcredist140
   register: win_choco_response
 
