@@ -1,6 +1,27 @@
 ---
 # tasks file for psm prerequisities
 
+- name: Install ".NET Framework 4.8" and "vcredist140 x64" package
+  win_chocolatey:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - netfx-4.8
+    - vcredist140
+  register: win_choco_response
+
+# - name: Ensure .NET Framework 4.8 installed
+#   win_chocolatey:
+#     name: netfx-4.8
+#     architecture: default
+#     state: present
+
+# - name: Ensure vcredist140 x64 package is installed (C++)
+#   win_chocolatey:
+#     name: vcredist140
+#     architecture: default
+#     state: present
+
 - name: Update NLA & UpdateRDSSecurityLayer installation
   win_shell: |
     try
@@ -235,3 +256,13 @@
 
     - fail:
         msg: 'ERROR: Preinstall failed. For more info check {{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_preinstall.log'
+
+# - name: Reboot host if required
+#   win_reboot:
+#   when:
+#     - not dotnet_installed.output[0]
+#     - dotnet_installation.reboot_required
+
+- name: Reboot host if required
+  win_reboot:
+  when: win_choco_response.changed == true and win_choco_response.rc == 3010
