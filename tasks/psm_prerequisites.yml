@@ -13,6 +13,12 @@
     state: present
   register: vcredist140_response
 
+- name: Reboot host if required
+  win_reboot:
+  when: dotnetfx_response.rc == 3010 or vcredist140_response.rc == 3010
+
+
+
 # - name: Ensure .NET Framework 4.8 installed
 #   win_chocolatey:
 #     name: netfx-4.8
@@ -260,6 +266,6 @@
     - fail:
         msg: 'ERROR: Preinstall failed. For more info check {{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_preinstall.log'
 
-- name: Reboot host if required
-  win_reboot:
-  when: dotnetfx_response.rc == 3010 or vcredist140_response.rc == 3010
+# - name: Reboot host if required
+#   win_reboot:
+#   when: dotnetfx_response.rc == 3010 or vcredist140_response.rc == 3010
