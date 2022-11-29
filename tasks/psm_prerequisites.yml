@@ -7,16 +7,10 @@
     state: present
   register: dotnetfx_response
 
-- name: Install vcredist140 x64 package
-  win_chocolatey:
-    name: vcredist140
-    state: present
-  register: vcredist140_response
-
 - name: Reboot host if required
   win_reboot:
     reboot_timeout: 300
-  when: dotnetfx_response.rc == 3010 or vcredist140_response.rc == 3010
+  when: dotnetfx_response.rc == 3010
 
 - name: Update NLA & UpdateRDSSecurityLayer installation
   win_shell: |
