@@ -45,6 +45,8 @@
         } else {
             exit 0
         }
+      become: true
+      become_user: Administrator
 
     - name: Get log path for prerequisities
       win_shell: |
