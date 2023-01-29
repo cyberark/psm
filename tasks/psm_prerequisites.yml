@@ -1,17 +1,6 @@
 ---
 # tasks file for psm prerequisities
 
-- name: Install .NET Framework 4.8
-  win_chocolatey:
-    name: dotnetfx
-    state: present
-  register: dotnetfx_response
-
-- name: Reboot host if required
-  win_reboot:
-    reboot_timeout: 300
-  when: dotnetfx_response.rc == 3010
-
 - name: Update NLA & UpdateRDSSecurityLayer installation
   win_shell: |
     try
