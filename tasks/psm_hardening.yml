@@ -2,12 +2,12 @@
 # tasks file for psm_hardening
 
 - name: Check psm_out_of_domain is boolean
-  fail:
+  ansible.builtin.fail:
     msg: "psm_out_of_domain should be true/false, current type is {{ psm_out_of_domain | type_debug }}"
   when: psm_out_of_domain | type_debug != 'bool'
 
 - name: Update PSM out-of-domain parameter
-  win_shell: |
+  ansible.windows.win_shell: |
     try
     {
         $psm_domain = if('{{ psm_out_of_domain }}' -eq 'true') {"Yes"} else {"No"}
@@ -29,7 +29,7 @@
   block:
 
     - name: Run PSM hardening
-      win_shell: |
+      ansible.windows.win_shell: |
         Set-Location "{{ psm_installationautomation_folder }}"
         $Action = .\Execute-Stage.ps1 "{{ psm_installationautomation_folder }}\Hardening\HardeningConfig.xml" -silentMode "Silent" -displayJson -delayedrestart
         $Action | Out-File -FilePath "{{ psm_hardening_log }}"
@@ -41,13 +41,13 @@
         }
 
     - name: Get log path for hardening
-      win_shell: |
+      ansible.windows.win_shell: |
         $Result = Get-Content "{{ psm_hardening_log }}"
         Write-Output $Result
       register: log_result
 
     - name: Fetch hardening log from path
-      fetch:
+      ansible.builtin.fetch:
         src: '{{ item.logPath }}'
         dest: '{{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_hardening.log'
         flat: yes
@@ -55,7 +55,7 @@
         - "{{ log_result.stdout | from_json }}"
 
     - name: Enable AutoAdminLogon
-      win_regedit:
+      ansible.windows.win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: AutoAdminLogon
         data: 1
@@ -66,7 +66,7 @@
         - psm_restart
 
     - name: Set default username for AutoAdminLogon
-      win_regedit:
+      ansible.windows.win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultUsername
         data: "{{ ansible_user }}"
@@ -77,7 +77,7 @@
         - psm_restart
 
     - name: Set default password for AutoAdminLogon
-      win_regedit:
+      ansible.windows.win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultPassword
         data: "{{ ansible_password }}"
@@ -88,7 +88,7 @@
         - psm_restart
 
     - name: Reboot when PSM hardening requires reboot
-      win_reboot:
+      ansible.windows.win_reboot:
         reboot_timeout: 300
       with_items:
         - "{{ log_result.stdout | from_json }}"
@@ -97,7 +97,7 @@
         - psm_restart
 
     - name: Remove AutoAdminLogon
-      win_regedit:
+      ansible.windows.win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: AutoAdminLogon
         state: absent
@@ -108,7 +108,7 @@
         - psm_restart
 
     - name: Remove username for AutoAdminLogon
-      win_regedit:
+      ansible.windows.win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultUsername
         state: absent
@@ -119,7 +119,7 @@
         - psm_restart
 
     - name: Remove password for AutoAdminLogon
-      win_regedit:
+      ansible.windows.win_regedit:
         path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
         name: DefaultPassword
         state: absent
@@ -132,13 +132,13 @@
   rescue:
 
     - name: Get log path for hardening
-      win_shell: |
+      ansible.windows.win_shell: |
         $Result = Get-Content "{{ psm_hardening_log }}"
         Write-Output $Result
       register: log_result
 
     - name: Fetch hardening log from path
-      fetch:
+      ansible.builtin.fetch:
         src: '{{ item.logPath }}'
         dest: '{{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_hardening.log'
         flat: yes
@@ -149,7 +149,7 @@
         msg: 'ERROR: Hardening failed. For more info check {{ lookup("config", "DEFAULT_LOG_PATH") | dirname }}/psm/{{ inventory_hostname }}_hardening.log'
 
 - name: Validate PSM hardening
-  win_shell: |
+  ansible.windows.win_shell: |
     $policyInfPath = "{{ psm_installationautomation_folder }}\\group-policy.inf"
     $policyLogPath = "{{ psm_installationautomation_folder }}\\group-policy.log"
     secedit /export /cfg "$policyInfPath" /log "$policyLogPath"
