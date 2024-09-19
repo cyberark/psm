@@ -2,41 +2,35 @@
 # tasks file for psm_extract
 
 - name: Create folder
-  win_file:
+  ansible.windows.win_file:
     path: "{{ psm_extract_folder }}"
     state: directory
 
 - name: Copy PSM package from local source
-  win_copy:
+  ansible.windows.win_copy:
     src: "{{ psm_zip_file_path }}"
     dest: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
   register: st
 
-- fail:
+- name: Check if package exists in path
+  ansible.builtin.fail:
     msg: "{{ psm_zip_file_path }} not exists, failing..."
   when: not st.checksum
 
-- name: Check if package is valid using checksum
-  fail:
-    msg: "Checksum does not match, please validate your package."
-  when:
-    - st.checksum != psm_sha1_checksum
-    - not psm_ignore_checksum
-
 - name: Unzip the PSM package
-  win_unzip:
+  community.windows.win_unzip:
     src: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
     dest: "{{ psm_extract_folder }}"
   when: psm_official
 
 - name: Create component folder
-  win_file:
+  ansible.windows.win_file:
     path: "{{ psm_extract_folder }}\\{{ psm_component_folder }}"
     state: directory
   when: not psm_official
 
 - name: Unzip the PSM package
-  win_unzip:
+  community.windows.win_unzip:
     src: "{{ psm_extract_folder }}\\{{ psm_artifact_name }}"
     dest: "{{ psm_extract_folder }}\\{{ psm_component_folder }}"
   when: not psm_official

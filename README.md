@@ -24,6 +24,7 @@ psm_postinstall                  | no           | false                         
 psm_hardening                    | no           | false                                     | Apply PSM hardening
 psm_registration                 | no           | false                                     | Connect PSM to the Vault
 psm_clean                        | no           | false                                     | N/A
+platform                         | no           | aws                                       | Deployed platform (aws/azure)
 
 ### Deployment Variables
 Variable                         | Required     | Default                                              | Comments
@@ -36,7 +37,6 @@ secure_vault_password            | no           | None                          
 dr_vault_ip                      | no           | None                                                 | Vault DR IP address to perform registration
 accept_eula                      | yes          | **No**                                               | Accepting EULA condition (Yes/No)
 psm_zip_file_path                | yes          | None                                                 | CyberArk PSM installation Zip file package path
-connect_with_rdp                 | yes          | **No**                                               | Disable NLA on the server
 psm_installation_drive           | no           | **C:**                                               | Destination installation drive
 psm_out_of_domain                | no           | false                                                | Flag to determine if server is out of domain
 
@@ -83,7 +83,7 @@ to call the PSM role with several parameters:
 
 ```
 ---
-- include_role:
+- ansible.builtin.include_role:
     name: psm
   vars:
     - psm_prerequisites: true

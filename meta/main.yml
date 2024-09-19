@@ -1,5 +1,8 @@
 ---
+
 galaxy_info:
+  role_name: psm_ansible
+  namespace: cyberark
   author:
     - Nimrod Yakobovitz
     - Yogev Chen
@@ -16,6 +19,7 @@ galaxy_info:
     - name: Windows
       versions:
         - 2016
+        - 2019
 
   galaxy_tags:
     - psm
