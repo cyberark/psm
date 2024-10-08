@@ -1,44 +1,43 @@
 ---
 # tasks file for psm
 
-# Validate Parameters
 - name: Validate input parameters
-  include_tasks: psm_validateparameters.yml
+  ansible.builtin.include_tasks: psm_validateparameters.yml
 
 - name: Extract PSM package
-  include_tasks: psm_extract.yml
+  ansible.builtin.include_tasks: psm_extract.yml
   when:
     - psm_extract
   tags: [print_action]
 
 - name: Running PSM prerequisities
-  include_tasks: psm_prerequisites.yml
+  ansible.builtin.include_tasks: psm_prerequisites.yml
   when:
     - psm_prerequisites
   tags: [print_action]
 
 - name: Running PSM install
-  include_tasks: psm_install.yml
+  ansible.builtin.include_tasks: psm_install.yml
   when:
     - psm_install
   tags: [print_action]
 
 - name: Running PSM postinstall
-  include_tasks: psm_postinstall.yml
+  ansible.builtin.include_tasks: psm_postinstall.yml
   when:
     - psm_exists
     - psm_postinstall
   tags: [print_action]
 
 - name: Running PSM hardening
-  include_tasks: psm_hardening.yml
+  ansible.builtin.include_tasks: psm_hardening.yml
   when:
     - psm_exists
     - psm_hardening
   tags: [print_action]
 
 - name: Running PSM registration
-  include_tasks: psm_registration.yml
+  ansible.builtin.include_tasks: psm_registration.yml
   when:
     - psm_registration
     - psm_exists
@@ -46,7 +45,7 @@
   tags: [print_action]
 
 - name: Running PSM clean
-  include_tasks: psm_clean.yml
+  ansible.builtin.include_tasks: psm_clean.yml
   when:
     - psm_clean
   tags: [print_action]
