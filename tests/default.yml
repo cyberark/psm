@@ -1,23 +1,23 @@
 ---
 
 - hosts: psm
-  gather_facts: no
+  gather_facts: false
   tasks:
 
     - name: Get roles directory dirname
-      set_fact:
+      ansible.builtin.set_fact:
         roles_dirname: "{{ playbook_dir | dirname | basename }}"
 
     - name: download package from s3
       aws_s3:
         bucket: cloud-initiatives-pipeline-bucket
-        object: "Packages/v13.2/Privileged Session Manager-Rls-v13.2.zip"
+        object: "Packages/v14.0/Privileged Session Manager-Rls-v14.0.zip"
         dest: "/tmp/psm.zip"
         mode: get
       delegate_to: localhost
 
     - name: PSM Deployment
-      include_role:
+      ansible.builtin.include_role:
         name: "{{ roles_dirname }}"
       vars:
         - psm_extract: true
@@ -25,9 +25,8 @@
         - psm_prerequisites: true
         - psm_install: true
         - psm_postinstall: true
-        - psm_hardening: false
+        - psm_hardening: true
         - psm_registration: false
         - psm_zip_file_path: "/tmp/psm.zip"
         - accept_eula: "yes"
-        - connect_with_rdp: "yes"
         - psm_out_of_domain: true
