@@ -37,7 +37,7 @@ pyparsing==2.4.6
 python-dateutil==2.8.1
 pywinrm==0.4.1
 PyYAML==5.3
-requests==2.23.0
+requests==2.31.0
 requests-credssp==1.1.1
 requests-ntlm==1.1.0
 requests-oauthlib==1.3.0
