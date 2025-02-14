@@ -4,26 +4,26 @@
      "PollInterval":"00:00:05",
      "Components":[
         {
-           "Id":"CfnInitLog",
+           "Id":"UserDataLog",
            "FullName":"AWS.EC2.Windows.CloudWatch.CustomLog.CustomLogInputComponent,AWS.EC2.Windows.CloudWatch",
            "Parameters":{
-              "LogDirectoryPath":"C:\\cfn\\log",
-              "TimestampFormat":"yyyy-MM-dd HH:mm:ss,fff",
+              "LogDirectoryPath":"C:\\CyberArk\\Deployment\\Logs",
+              "TimestampFormat":"yyyy-MM-dd HH:mm:ss",
               "Encoding":"ASCII",
-              "Filter":"cfn-init.log",
+              "Filter":"UserData.log",
               "CultureName":"en-US",
               "TimeZoneKind":"Local"
            }
         },
         {
-           "Id":"CloudWatchCfnInitLog",
+           "Id":"CloudWatchUserDataLog",
            "FullName":"AWS.EC2.Windows.CloudWatch.CloudWatchLogsOutput,AWS.EC2.Windows.CloudWatch",
            "Parameters":{
               "AccessKey":"",
               "SecretKey":"",
               "Region":"AWS_REGION_PH",
               "LogGroup":"LOG_GROUP_PH",
-              "LogStream":"PSM_CFN_LOG_PH"
+              "LogStream":"USERDATA_LOG_PH"
            }
         },
         {
@@ -54,7 +54,7 @@
            "FullName":"AWS.EC2.Windows.CloudWatch.CustomLog.CustomLogInputComponent,AWS.EC2.Windows.CloudWatch",
            "Parameters":{
               "LogDirectoryPath":"C:\\CyberArk\\Deployment\\Logs",
-              "TimestampFormat":"yyyy-MM-dd HH:mm:ss,fff",
+              "TimestampFormat":"yyyy-MM-dd HH:mm:ss",
               "Encoding":"ASCII",
               "Filter":"PSMRegistration.log",
               "CultureName":"en-US",
@@ -75,7 +75,7 @@
      ],
      "Flows":{
         "Flows":[
-           "CfnInitLog,CloudWatchCfnInitLog",
+           "UserDataLog,CloudWatchUserDataLog",
            "PSMConflog,CloudWatchPSMConflog",
            "PSMRegistration,CloudWatchPSMRegistration"
         ]

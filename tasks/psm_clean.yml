@@ -45,6 +45,12 @@
     dest: "{{ psm_base_bin_drive }}\\Cyberark\\PSM"
     remote_src: true
 
+- name: Keep Hardening folder
+  ansible.windows.win_copy:
+    src: "{{ psm_hardening_location }}"
+    dest: "{{ psm_base_bin_drive }}\\Cyberark\\PSM"
+    remote_src: true
+
 - name: Delete the deployment folder
   ansible.windows.win_file:
     path: "{{ psm_extract_folder }}"
@@ -84,7 +90,9 @@
     src: "files/aws/{{ item }}"
     dest: C:\CyberArk\Deployment\
   with_items:
+    - UserDataScript.ps1
     - PSMRegistration.ps1
+    - PSMHardening.ps1
     - PSMConfiguration.ps1
     - CloudWatch.ps1
     - Common.ps1
